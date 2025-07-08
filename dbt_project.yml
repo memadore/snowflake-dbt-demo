@@ -1,0 +1,20 @@
+---
+name: 'snowflake_dbt_demo'
+version: '1.0.0'
+profile: 'snowflake_dbt_demo'
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+clean-targets:
+  - "target"
+  - "dbt_packages"
+flags:
+  send_anonymous_usage_stats: False
+  use_colors: True
+models:
+  snowflake_dbt_demo:
+    staging:
+      +schema: staging
