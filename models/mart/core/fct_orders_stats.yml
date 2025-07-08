@@ -1,0 +1,33 @@
+---
+version: 2
+models:
+  - name: fct_orders_stats
+    description: Aggregated statistical insights related to customer orders
+    columns:
+      - name: metric
+        description: |
+          A label or identifier indicating the type of metric represented in the row (e.g., daily, monthly, or custom aggregation).
+      - name: order_key
+        description: |
+          A unique identifier for each order in the dataset.
+      - name: customer_key
+        description: |
+          A foreign key linking the order to the corresponding customer.
+      - name: ship_priority
+        description: |
+          A numeric or categorical value indicating the shipping priority level assigned to the order.
+      - name: order_count
+        description: |
+          The total number of individual orders associated with the given key or metric grouping.
+      - name: gross_item_sales_amount
+        description: |
+          The total pre-discount and pre-tax sales value of all items in the order.
+      - name: item_discount_amount
+        description: |
+          The total discount amount applied to the items in the order.
+      - name: item_tax_amount
+        description: |
+          The total tax amount levied on the items in the order.
+      - name: net_item_sales_amount
+        description: |
+          The final sales amount after applying discounts and adding taxes (i.e., gross - discount + tax).

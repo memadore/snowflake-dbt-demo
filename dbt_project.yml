@@ -15,6 +15,13 @@ flags:
   send_anonymous_usage_stats: False
   use_colors: True
 models:
+  dbt_project_evaluator:
+    +schema: metadata
+    +enabled: "{{ env_var('DBT_PROJECT_EVALUATOR_ENABLED', 'false') | lower == 'true' | as_bool }}"
   snowflake_dbt_demo:
     staging:
       +schema: staging
+    mart:
+      core:
+        +schema: mart
+        +materialized: table
