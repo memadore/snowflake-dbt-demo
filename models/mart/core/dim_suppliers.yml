@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: dim_suppliers
+    description: Suppliers dimensions table
+    columns:
+      - name: supplier_key
+        description: primary key of the model
+        tests:
+          - unique
+          - not_null
+      - name: supplier_name
+        description: '{{ doc("supplier_name") }}'
+      - name: supplier_address
+        description: '{{ doc("supplier_address") }}'
+      - name: nation
+        description: nation name
+      - name: region
+        description: region name
+      - name: phone_number
+        description: '{{ doc("phone_number") }}'
+      - name: account_balance
+        description: '{{ doc("account_balance") }}'
+    meta:
+      joins:
+        - join: stg_tpch_suppliers
+          sql_on: ${dim_suppliers.supplier_key} = ${stg_tpch_suppliers.supplier_key}
