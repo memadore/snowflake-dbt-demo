@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_tpch_customers
+    description: staging layer for customers data
+    columns:
+      - name: customer_key
+        description: primary key of the model
+        tests:
+          - unique
+          - not_null
+      - name: name
+        description: customer id
+      - name: address
+        description: address of the customer
+      - name: nation_key
+        description: foreign key to stg_tpch_nations
+      - name: phone_number
+        description: phone number of the customer
+      - name: account_balance
+        description: total account balance from the customer
+      - name: market_segment
+        description: market segment of the customer
+      - name: comment
+        description: '{{ doc("comment") }}'
+    meta:
+      joins:
+        - join: stg_tpch_nations
+          sql_on: ${stg_tpch_customers.nation_key} = ${stg_tpch_nations.nation_key}
