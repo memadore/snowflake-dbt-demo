@@ -11,7 +11,7 @@ models:
     columns:
       - name: supplier_key
         description: primary key of the model
-        data_type: number
+        data_type: number(38)
         data_tests:
           - unique
           - not_null
