@@ -6,7 +6,7 @@ models:
     columns:
       - name: part_supplier_key
         description: primary key of the models
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: part_key

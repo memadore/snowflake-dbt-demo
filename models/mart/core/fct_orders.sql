@@ -2,7 +2,6 @@ with
     orders as (select * from {{ ref("stg_tpch_orders") }}),
     order_item as (select * from {{ ref("int_order_items") }}),
     order_item_summary as (
-
         select
             order_key,
             sum(gross_item_sales_amount) as gross_item_sales_amount,

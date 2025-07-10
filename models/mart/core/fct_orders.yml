@@ -9,7 +9,7 @@ models:
     columns:
       - name: order_key
         description: primary key of the model
-        tests:
+        data_tests:
           - unique
           - not_null
         meta:
@@ -18,7 +18,7 @@ models:
               type: sum
       - name: customer_key
         description: foreign key for customers
-        tests:
+        data_tests:
           - relationships:
               to: ref('dim_customers')
               field: customer_key
@@ -51,3 +51,16 @@ models:
       joins:
         - join: dim_customers
           sql_on: ${fct_orders.customer_key} = ${dim_customers.customer_key}
+unit_tests:
+  - name: fct_orders_test
+    model: fct_orders
+    given:
+      - input: ref("stg_tpch_orders")
+        format: csv
+        fixture: stg_tpch_orders_fixture
+      - input: ref("int_order_items")
+        format: csv
+        fixture: int_order_items_fixture
+    expect:
+      format: csv
+      fixture: fct_orders_fixture

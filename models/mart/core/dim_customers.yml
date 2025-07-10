@@ -6,7 +6,7 @@ models:
     columns:
       - name: customer_key
         description: Primary key on the customers table
-        tests:
+        data_tests:
           - unique
           - not_null
         meta:
@@ -15,7 +15,7 @@ models:
               type: count
       - name: region
         description: region name
-        tests:
+        data_tests:
           - accepted_values:
               values: ['AFRICA', 'MIDDLE EAST', 'ASIA', 'EUROPE', 'AMERICA']
               severity: warn

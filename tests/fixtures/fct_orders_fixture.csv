@@ -1,0 +1,3 @@
+order_key,order_date,customer_key,status_code,priority_code,ship_priority,clerk_name,order_count,gross_item_sales_amount,item_discount_amount,item_tax_amount,net_item_sales_amount
+3000001,"1992-12-17",145618,"F","4-NOT SPECIFIED",0,"Clerk#000000141",1,29048.8,-580.976,1708.0694,30175.8934
+3000002,"1995-07-28",1481,"O","1-URGENT",0,"Clerk#000000547",1,301705.47,-13392.8541,9687.0707,297999.6866
