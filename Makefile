@@ -16,6 +16,9 @@ dbt-docs:
 dbt-project-evaluator:
 	export DBT_PROJECT_EVALUATOR_ENABLED=true && uv run dbt build --select package:dbt_project_evaluator
 
+dbt-snapshot:
+	uv run dbt snapshot
+
 dbt-test:
 	uv run dbt test
 
