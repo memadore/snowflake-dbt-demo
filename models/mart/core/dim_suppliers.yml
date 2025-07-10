@@ -3,27 +3,43 @@ version: 2
 models:
   - name: dim_suppliers
     description: Suppliers dimensions table
+    latest_version: 1
     config:
       group: manufacturing
+      contract:
+        enforced: true
     columns:
       - name: supplier_key
         description: primary key of the model
+        data_type: number
         data_tests:
           - unique
           - not_null
       - name: supplier_name
         description: '{{ doc("supplier_name") }}'
+        data_type: varchar
       - name: supplier_address
         description: '{{ doc("supplier_address") }}'
+        data_type: varchar
       - name: nation
         description: nation name
+        data_type: varchar
       - name: region
         description: region name
+        data_type: varchar
       - name: phone_number
         description: '{{ doc("phone_number") }}'
+        data_type: varchar
       - name: account_balance
         description: '{{ doc("account_balance") }}'
+        data_type: number(12,2)
     meta:
       joins:
         - join: stg_tpch_suppliers
           sql_on: ${dim_suppliers.supplier_key} = ${stg_tpch_suppliers.supplier_key}
+    versions:
+      - v: 1
+      - v: 2
+        columns:
+          - include: all
+            exclude: [account_balance]
