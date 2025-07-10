@@ -6,6 +6,25 @@ models:
     config:
       tags:
         - finance
+    constraints:
+      - type: primary_key
+        columns: order_item_key
+      - type: foreign_key
+        columns: order_key
+        to: ref('fct_orders')
+        to_columns: order_key
+      - type: foreign_key
+        columns: customer_key
+        to: ref('dim_customers')
+        to_columns: customer_key
+      - type: foreign_key
+        columns: part_key
+        to: ref('dim_parts')
+        to_columns: part_key
+      - type: foreign_key
+        columns: supplier_key
+        to: ref('dim_suppliers', v=2)
+        to_columns: supplier_key
     columns:
       - name: order_item_key
         description: '{{ doc("order_item_key") }}'
@@ -14,6 +33,10 @@ models:
           - not_null
       - name: order_key
         description: foreign key for orders
+        data_tests:
+          - relationships:
+              field: order_key
+              to: ref('fct_orders')
         meta:
           metrics:
             items_in_order:
@@ -22,10 +45,25 @@ models:
         description: date of the order
       - name: customer_key
         description: foreign key for customers
+        data_tests:
+          - relationships:
+              field: customer_key
+              to: ref('dim_customers')
       - name: part_key
         description: foreign key for part
+        data_tests:
+          - relationships:
+              field: part_key
+              to: ref('dim_parts')
       - name: supplier_key
         description: foreign key for suppliers
+        data_tests:
+          - relationships:
+              field: supplier_key
+              to: ref('dim_suppliers', v=1)
+          - relationships:
+              field: supplier_key
+              to: ref('dim_suppliers', v=2)
       - name: order_item_status_code
         description: status of the order item
       - name: return_flag

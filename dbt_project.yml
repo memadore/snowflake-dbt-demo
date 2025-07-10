@@ -14,9 +14,12 @@ clean-targets:
 flags:
   send_anonymous_usage_stats: False
   use_colors: True
+seeds:
+  snowflake_dbt_demo:
+    +schema: seeds
 snapshots:
   snowflake_dbt_demo:
-    +schema: snapshot
+    +schema: snapshots
 models:
   dbt_project_evaluator:
     +schema: metadata
