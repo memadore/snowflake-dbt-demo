@@ -3,6 +3,8 @@ version: 2
 models:
   - name: fct_orders_stats
     description: Aggregated statistical insights related to customer orders
+    config:
+      group: finance
     columns:
       - name: metric
         description: |

@@ -4,6 +4,7 @@ models:
   - name: fct_orders
     description: orders fact table
     config:
+      group: finance
       tags:
         - finance
     columns:

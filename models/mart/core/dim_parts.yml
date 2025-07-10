@@ -3,6 +3,8 @@ version: 2
 models:
   - name: dim_parts
     description: Parts dimensions table
+    config:
+      group: manufacturing
     columns:
       - name: part_key
         description: primary key of the model

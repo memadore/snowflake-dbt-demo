@@ -3,6 +3,8 @@ version: 2
 models:
   - name: dim_suppliers
     description: Suppliers dimensions table
+    config:
+      group: manufacturing
     columns:
       - name: supplier_key
         description: primary key of the model
