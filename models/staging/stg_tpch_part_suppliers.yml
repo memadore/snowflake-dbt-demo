@@ -6,7 +6,7 @@ models:
     columns:
       - name: part_supplier_key
         description: surrogate key for the model -- combo of ps_partkey + ps_suppkey
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: part_key

@@ -6,7 +6,7 @@ models:
     columns:
       - name: part_key
         description: primary key of the model
-        tests:
+        data_tests:
           - unique
           - not_null
       - name: manufacturer
