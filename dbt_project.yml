@@ -14,6 +14,9 @@ clean-targets:
 flags:
   send_anonymous_usage_stats: False
   use_colors: True
+snapshots:
+  snowflake_dbt_demo:
+    +schema: snapshot
 models:
   dbt_project_evaluator:
     +schema: metadata
