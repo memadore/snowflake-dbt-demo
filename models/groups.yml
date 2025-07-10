@@ -1,0 +1,15 @@
+---
+version: 2
+groups:
+  - name: finance
+    owner:
+      name: Gus Fring
+      email: finance@lospolloshermanos.com
+  - name: marketing
+    owner:
+      name: Jessy Pinkman
+      email: marketing@lospolloshermanos.com
+  - name: manufacturing
+    owner:
+      name: Walter White
+      email: manufacturing@lospolloshermanos.com

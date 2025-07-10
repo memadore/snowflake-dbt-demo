@@ -19,11 +19,17 @@ models:
     +schema: metadata
     +enabled: "{{ env_var('DBT_PROJECT_EVALUATOR_ENABLED', 'false') | lower == 'true' | as_bool }}"
   snowflake_dbt_demo:
+    +persist_docs:
+      relation: true
+      columns: true
     intermediate:
       +schema: intermediate
+      +access: protected
     staging:
       +schema: staging
+      +access: protected
     mart:
       core:
+        +access: public
         +schema: mart
         +materialized: table

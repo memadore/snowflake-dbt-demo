@@ -3,6 +3,8 @@ version: 2
 models:
   - name: dim_customers
     description: Customer dimensions table
+    config:
+      group: marketing
     columns:
       - name: customer_key
         description: Primary key on the customers table
