@@ -86,5 +86,5 @@ jobs:
           snow connection test -c ${{ matrix.environment }}
           envsubst < .github/configs/dbt/snowflake/profiles.template.yml > profiles.yml
           snow dbt deploy snowflake_dbt_demo -c ${{ matrix.environment }}
-          snow sql -q '!source jobs/scheduled_daily_build_job.sql'
-          snow sql -q '!source jobs/manual_full_refresh_build_job.sql'
+          snow sql -q '!source jobs/scheduled_daily_build_job.sql' -c ${{ matrix.environment }}
+          snow sql -q '!source jobs/manual_full_refresh_build_job.sql' -c ${{ matrix.environment }}
