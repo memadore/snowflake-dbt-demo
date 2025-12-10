@@ -6,7 +6,7 @@ use role securityadmin
 ;
 CREATE
 OR REPLACE USER "GITHUB@DEMO.LOCAL" TYPE = SERVICE WORKLOAD_IDENTITY = (
-    TYPE = OIDC ISSUER = 'https://token.actions.githubusercontent.com' SUBJECT = 'repo:memadore/snowflake-dbt-demo'
+    TYPE = OIDC ISSUER = 'https://token.actions.githubusercontent.com' SUBJECT = 'repo:memadore/snowflake-dbt-demo:ref:refs/heads/main'
 );
 
 -- RBAC
@@ -28,6 +28,10 @@ to user "GITHUB@DEMO.LOCAL"
 ;
 grant role demo_data_developer
 to role demo_admin
+;
+grant execute task
+on account
+to role demo_data_developer
 ;
 
 CREATE OR REPLACE ROLE DEMO_DATA_ANALYST;
