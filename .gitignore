@@ -2,8 +2,10 @@
 target/
 dbt_packages/
 logs/
+.states/
 
 .env
+tmp
 
 # Local .terraform directories
 .terraform/
