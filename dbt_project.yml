@@ -1,6 +1,6 @@
 ---
 name: 'snowflake_dbt_demo'
-version: '1.0.0'
+version: '0.1.0'
 profile: 'snowflake_dbt_demo'
 model-paths: ["models"]
 analysis-paths: ["analyses"]
@@ -14,6 +14,9 @@ clean-targets:
 flags:
   send_anonymous_usage_stats: False
   use_colors: True
+data_tests:
+  dbt_project_evaluator:
+    +severity: "{{ env_var('DBT_PROJECT_EVALUATOR_SEVERITY', 'warn') }}"
 seeds:
   snowflake_dbt_demo:
     +schema: seeds

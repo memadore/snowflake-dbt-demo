@@ -12,7 +12,7 @@ repos:
     rev: v0.26.0
     hooks:
       - id: sqlfmt
-        language_version: python
+        language_version: python3.13
         additional_dependencies: ['.[jinjafmt]']
   - repo: https://github.com/google/yamlfmt
     rev: v0.17.2
@@ -27,6 +27,7 @@ repos:
       - id: dbt-docs-generate
         args: ["--cmd-flags", "++no-compile"]
       - id: check-script-semicolon
+        exclude: '(scripts)/.*'
       - id: check-script-has-no-table-name
       - id: check-model-has-all-columns
         name: Check columns - core
