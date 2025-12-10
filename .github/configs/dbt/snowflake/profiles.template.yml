@@ -8,5 +8,5 @@ snowflake_dbt_demo:
       account: account
       user: user
       role: demo_data_developer
-      database: "demo_{{ var('environment', 'dev') | lower }}_analytics"
+      database: "demo_${ENVIRONMENT}_analytics"
       schema: internal

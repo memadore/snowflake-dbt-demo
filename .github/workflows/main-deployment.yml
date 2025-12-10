@@ -78,9 +78,13 @@ jobs:
       - name: Deploy the dbt project to snowflake
         env:
           SNOWFLAKE_ACCOUNT: '${{ vars.SNOWFLAKE_ACCOUNT }}'
+          ENVIRONMENT: ${{ matrix.environment }}
         run: |
           UV_PYTHON=$(cat .python-version)
           export UV_PYTHON
           uv run dbt deps
           snow connection test -c ${{ matrix.environment }}
-          snow dbt deploy snowflake_dbt_demo --profiles-dir .github/configs/dbt/snowflake --default-target prod -c ${{ matrix.environment }}
+          envsubst < .github/configs/dbt/snowflake/profiles.template.yml > profiles.yml
+          snow dbt deploy snowflake_dbt_demo -c ${{ matrix.environment }}
+          snow sql -q '!source jobs/scheduled_daily_build_job.sql'
+          snow sql -q '!source jobs/manual_full_refresh_build_job.sql'

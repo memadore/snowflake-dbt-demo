@@ -27,7 +27,7 @@ repos:
       - id: dbt-docs-generate
         args: ["--cmd-flags", "++no-compile"]
       - id: check-script-semicolon
-        exclude: '(scripts)/.*'
+        exclude: '(jobs|scripts)/.*'
       - id: check-script-has-no-table-name
       - id: check-model-has-all-columns
         name: Check columns - core
