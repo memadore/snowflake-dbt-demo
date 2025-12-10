@@ -1,0 +1,12 @@
+---
+# see: https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup#authentication-methods
+snowflake_dbt_demo:
+  target: prod
+  outputs:
+    prod:
+      type: snowflake
+      account: account
+      user: user
+      role: demo_data_developer
+      database: "demo_{{ var('environment', 'dev') | lower }}_analytics"
+      schema: internal

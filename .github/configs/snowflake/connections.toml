@@ -1,0 +1,20 @@
+[connections.dev]
+user = "github@demo.local"
+role = "DEMO_DATA_DEVELOPER"
+warehouse = "DEMO_TRANSFORM_XS"
+database = "DEMO_DEV_ANALYTICS"
+schema = "INTERNAL"
+
+[connections.uat]
+user = "github@demo.local"
+role = "DEMO_DATA_DEVELOPER"
+warehouse = "DEMO_TRANSFORM_XS"
+database = "DEMO_UAT_ANALYTICS"
+schema = "INTERNAL"
+
+[connections.prod]
+user = "github@demo.local"
+role = "DEMO_DATA_DEVELOPER"
+warehouse = "DEMO_TRANSFORM_XS"
+database = "DEMO_PROD_ANALYTICS"
+schema = "INTERNAL"

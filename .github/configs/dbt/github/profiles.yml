@@ -1,0 +1,25 @@
+---
+# see: https://docs.getdbt.com/docs/core/connect-data-platform/snowflake-setup#authentication-methods
+snowflake_dbt_demo:
+  target: uat
+  outputs:
+    uat:
+      type: snowflake
+      account: "{{ env_var('DBT_SNOWFLAKE_ACCOUNT') | lower }}"
+      user: "{{ env_var('DBT_SNOWFLAKE_USER', 'github@demo.local') | lower }}"
+      password: "{{ env_var('DBT_ENV_SECRET_SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('DBT_SNOWFLAKE_ROLE', 'demo_data_developer') | lower }}"
+      warehouse: "{{ env_var('DBT_SNOWFLAKE_WH', 'demo_transform_xs') | lower }}"
+      database: "{{ env_var('DBT_SNOWFLAKE_DATABASE', 'demo_uat_analytics') | lower }}"
+      schema: "{{ env_var('DBT_SNOWFLAKE_SCHEMA') | lower }}"
+      threads: 8
+    prod:
+      type: snowflake
+      account: "{{ env_var('DBT_SNOWFLAKE_ACCOUNT') | lower }}"
+      user: "{{ env_var('DBT_SNOWFLAKE_USER', 'github@demo.local') | lower }}"
+      password: "{{ env_var('DBT_ENV_SECRET_SNOWFLAKE_PASSWORD') }}"
+      role: "{{ env_var('DBT_SNOWFLAKE_ROLE', 'demo_data_developer') | lower }}"
+      warehouse: "{{ env_var('DBT_SNOWFLAKE_WH', 'demo_transform_xs') | lower }}"
+      database: "{{ env_var('DBT_SNOWFLAKE_DATABASE', 'demo_uat_analytics') | lower }}"
+      schema: "{{ env_var('DBT_SNOWFLAKE_SCHEMA', 'internal') | lower }}"
+      threads: 8
