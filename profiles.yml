@@ -8,10 +8,9 @@ snowflake_dbt_demo:
       user: "{{ env_var('DBT_SNOWFLAKE_USER') | lower }}"
       private_key_path: "{{ env_var('DBT_SNOWFLAKE_PRIVATE_KEY_PATH') | lower }}"
       role: "{{ env_var('DBT_SNOWFLAKE_ROLE') | lower }}"
-      authenticator: externalbrowser
       warehouse: "{{ env_var('DBT_SNOWFLAKE_WH') | lower }}"
       database: "{{ env_var('DBT_SNOWFLAKE_DATABASE') | lower }}"
       schema: "{{ env_var('DBT_SNOWFLAKE_SCHEMA', 'public') | lower }}"
       threads: 8
-      client_session_keep_alive: False
-      reuse_connections: True
+      client_session_keep_alive: false
+      reuse_connections: true
