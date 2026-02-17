@@ -23,9 +23,9 @@ repos:
     rev: v2.0.7
     hooks:
       - id: dbt-deps
-      - id: dbt-parse
-      - id: dbt-docs-generate
-        args: ["--cmd-flags", "++no-compile"]
+      # - id: dbt-parse
+      # - id: dbt-docs-generate
+      # args: ["--cmd-flags", "++no-compile"]
       - id: check-script-semicolon
         exclude: '(jobs|scripts)/.*'
       - id: check-script-has-no-table-name

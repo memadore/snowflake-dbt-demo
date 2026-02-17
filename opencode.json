@@ -1,0 +1,14 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "dbt": {
+      "type": "local",
+      "command": ["uvx", "dbt-mcp"],
+      "enabled": true,
+      "environment": {
+        "DBT_PROJECT_DIR": ".",
+        "DBT_PATH": "./.venv/bin/dbt"
+      }
+    }
+  }
+}
