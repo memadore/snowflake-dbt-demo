@@ -13,6 +13,9 @@ dbt-clone:
 dbt-compile:
 	uv run dbt compile
 
+dbt-debug:
+	uv run dbt debug
+
 dbt-deps:
 	uv run dbt deps
 
