@@ -1,365 +1,138 @@
-use secondary roles all
-;
+USE SECONDARY ROLES ALL;
 
 -- USERS
-use role securityadmin
-;
-CREATE
-OR REPLACE USER "GITHUB@DEMO.LOCAL" TYPE = SERVICE WORKLOAD_IDENTITY = (
-    TYPE = OIDC ISSUER = 'https://token.actions.githubusercontent.com' SUBJECT = 'repo:memadore/snowflake-dbt-demo:ref:refs/heads/main'
+USE ROLE SECURITYADMIN;
+CREATE OR REPLACE USER "GITHUB@DEMO.LOCAL"
+    TYPE = SERVICE
+    WORKLOAD_IDENTITY = (
+        TYPE = OIDC ISSUER = 'https://token.actions.githubusercontent.com'
+        SUBJECT = 'repo:memadore/snowflake-dbt-demo:ref:refs/heads/main'
 );
 
 -- RBAC
-use role securityadmin
-;
+USE ROLE SECURITYADMIN;
 CREATE OR REPLACE ROLE PLATFORM_ADMIN;
-grant role platform_admin
-to role sysadmin
-;
+GRANT ROLE PLATFORM_ADMIN TO ROLE SYSADMIN;
 
 CREATE OR REPLACE ROLE DEMO_ADMIN;
-grant role demo_admin
-to role platform_admin
-;
+GRANT ROLE DEMO_ADMIN TO ROLE PLATFORM_ADMIN;
 
 CREATE OR REPLACE ROLE DEMO_DATA_DEVELOPER;
-grant role demo_data_developer
-to user "GITHUB@DEMO.LOCAL"
-;
-grant role demo_data_developer
-to role demo_admin
-;
-grant execute task
-on account
-to role demo_data_developer
-;
+GRANT ROLE DEMO_DATA_DEVELOPER TO USER "GITHUB@DEMO.LOCAL";
+GRANT ROLE DEMO_DATA_DEVELOPER TO ROLE DEMO_ADMIN;
+GRANT EXECUTE TASK ON ACCOUNT TO ROLE DEMO_DATA_DEVELOPER;
 
 CREATE OR REPLACE ROLE DEMO_DATA_ANALYST;
-grant role demo_data_analyst
-to role demo_data_developer
-;
+GRANT ROLE DEMO_DATA_ANALYST TO ROLE DEMO_DATA_DEVELOPER;
 
 CREATE OR REPLACE ROLE DEMO_DATA_VIEWER;
-grant role demo_data_viewer
-to role demo_data_analyst
-;
+GRANT ROLE DEMO_DATA_VIEWER TO ROLE DEMO_DATA_ANALYST;
 
--- - WAREHOUSES
-use role sysadmin
-;
-create or replace warehouse platform_admin_xs
-with auto_suspend = 60
-initially_suspended = true
-;
-grant ownership
-on warehouse platform_admin_xs
-to role platform_admin
-;
+-- WAREHOUSES
+USE ROLE SYSADMIN;
 
-create or replace warehouse demo_transform_xs
-with auto_suspend = 60
-initially_suspended = true
-;
-grant ownership
-on warehouse demo_transform_xs
-to role demo_admin
-;
+CREATE OR REPLACE WAREHOUSE PLATFORM_ADMIN_XS WITH
+    AUTO_SUSPEND = 60
+    INITIALLY_SUSPENDED = TRUE;
+GRANT OWNERSHIP ON WAREHOUSE PLATFORM_ADMIN_XS TO ROLE PLATFORM_ADMIN;
 
-create or replace warehouse demo_exploration_xs
-with auto_suspend = 60
-initially_suspended = true
-;
-grant ownership
-on warehouse demo_exploration_xs
-to role demo_admin
-;
+CREATE OR REPLACE WAREHOUSE DEMO_TRANSFORM_XS WITH
+    AUTO_SUSPEND = 60
+    INITIALLY_SUSPENDED = TRUE;
+GRANT OWNERSHIP ON WAREHOUSE DEMO_TRANSFORM_XS TO ROLE DEMO_ADMIN;
 
-create or replace warehouse demo_reporting_xs
-with auto_suspend = 60
-initially_suspended = true
-;
-grant ownership
-on warehouse demo_reporting_xs
-to role demo_admin
-;
+CREATE OR REPLACE WAREHOUSE DEMO_EXPLORATION_XS WITH
+    AUTO_SUSPEND = 60
+    INITIALLY_SUSPENDED = TRUE;
+GRANT OWNERSHIP ON WAREHOUSE DEMO_EXPLORATION_XS TO ROLE DEMO_ADMIN;
 
-use role securityadmin
-;
-grant usage
-on warehouse platform_admin_xs
-to user "GITHUB@DEMO.LOCAL"
-;
-grant usage
-on warehouse demo_transform_xs
-to role demo_data_developer
-;
-grant usage
-on warehouse demo_exploration_xs
-to role demo_data_analyst
-;
-grant usage
-on warehouse demo_reporting_xs
-to role demo_data_viewer
-;
+CREATE OR REPLACE WAREHOUSE DEMO_REPORTING_XS WITH
+    AUTO_SUSPEND = 60
+    INITIALLY_SUSPENDED = TRUE;
+GRANT OWNERSHIP ON WAREHOUSE DEMO_REPORTING_XS TO ROLE DEMO_ADMIN;
 
--- - DATABASE
-use role sysadmin
-;
-create or replace database demo_dev_analytics
-;
-grant ownership
-on database demo_dev_analytics
-to role platform_admin
-;
+USE ROLE SECURITYADMIN;
+GRANT USAGE ON WAREHOUSE PLATFORM_ADMIN_XS TO USER "GITHUB@DEMO.LOCAL";
+GRANT USAGE ON WAREHOUSE DEMO_TRANSFORM_XS TO ROLE DEMO_DATA_DEVELOPER;
+GRANT USAGE ON WAREHOUSE DEMO_EXPLORATION_XS TO ROLE DEMO_DATA_ANALYST;
+GRANT USAGE ON WAREHOUSE DEMO_REPORTING_XS TO ROLE DEMO_DATA_VIEWER;
+
+-- DATABASE
+USE ROLE SYSADMIN;
+CREATE OR REPLACE DATABASE DEMO_DEV_ANALYTICS;
+GRANT OWNERSHIP ON DATABASE DEMO_DEV_ANALYTICS TO ROLE PLATFORM_ADMIN;
 DROP SCHEMA DEMO_DEV_ANALYTICS.PUBLIC;
-create or replace schema demo_dev_analytics.staging
-;
-grant ownership
-on schema demo_dev_analytics.staging
-to role demo_admin
-;
-create or replace schema demo_dev_analytics.intermediate
-;
-grant ownership
-on schema demo_dev_analytics.intermediate
-to role demo_admin
-;
-create or replace schema demo_dev_analytics.mart
-;
-grant ownership
-on schema demo_dev_analytics.mart
-to role demo_admin
-;
-create or replace schema demo_dev_analytics.reports
-;
-grant ownership
-on schema demo_dev_analytics.reports
-to role demo_admin
-;
-create or replace schema demo_dev_analytics.seeds
-;
-grant ownership
-on schema demo_dev_analytics.seeds
-to role demo_admin
-;
-create or replace schema demo_dev_analytics.snapshots
-;
-grant ownership
-on schema demo_dev_analytics.snapshots
-to role demo_admin
-;
-create or replace schema demo_dev_analytics.internal
-;
-grant ownership
-on schema demo_dev_analytics.internal
-to role demo_admin
-;
-create or replace schema demo_dev_analytics.metadata
-;
-grant ownership
-on schema demo_dev_analytics.metadata
-to role demo_admin
-;
-create or replace schema demo_dev_analytics.workspace
-;
-grant ownership
-on schema demo_dev_analytics.workspace
-to role demo_admin
-;
+CREATE OR REPLACE SCHEMA DEMO_DEV_ANALYTICS.STAGING;
+GRANT OWNERSHIP ON SCHEMA DEMO_DEV_ANALYTICS.STAGING TO ROLE DEMO_ADMIN;
+CREATE OR REPLACE SCHEMA DEMO_DEV_ANALYTICS.INTERMEDIATE;
+GRANT OWNERSHIP ON SCHEMA DEMO_DEV_ANALYTICS.INTERMEDIATE TO ROLE DEMO_ADMIN;
+CREATE OR REPLACE SCHEMA DEMO_DEV_ANALYTICS.MART;
+GRANT OWNERSHIP ON SCHEMA DEMO_DEV_ANALYTICS.MART TO ROLE DEMO_ADMIN;
+CREATE OR REPLACE SCHEMA DEMO_DEV_ANALYTICS.REPORTS;
+GRANT OWNERSHIP ON SCHEMA DEMO_DEV_ANALYTICS.REPORTS TO ROLE DEMO_ADMIN;
+CREATE OR REPLACE SCHEMA DEMO_DEV_ANALYTICS.SEEDS;
+GRANT OWNERSHIP ON SCHEMA DEMO_DEV_ANALYTICS.SEEDS TO ROLE DEMO_ADMIN;
+CREATE OR REPLACE SCHEMA DEMO_DEV_ANALYTICS.SNAPSHOTS;
+GRANT OWNERSHIP ON SCHEMA DEMO_DEV_ANALYTICS.SNAPSHOTS TO ROLE DEMO_ADMIN;
+CREATE OR REPLACE SCHEMA DEMO_DEV_ANALYTICS.INTERNAL;
+GRANT OWNERSHIP ON SCHEMA DEMO_DEV_ANALYTICS.INTERNAL TO ROLE DEMO_ADMIN;
+CREATE OR REPLACE SCHEMA DEMO_DEV_ANALYTICS.METADATA;
+GRANT OWNERSHIP ON SCHEMA DEMO_DEV_ANALYTICS.METADATA TO ROLE DEMO_ADMIN;
+CREATE OR REPLACE SCHEMA DEMO_DEV_ANALYTICS.WORKSPACE;
+GRANT OWNERSHIP ON SCHEMA DEMO_DEV_ANALYTICS.WORKSPACE TO ROLE DEMO_ADMIN;
 
-create or replace database role demo_dev_analytics.admin
-;
-grant all privileges
-on database demo_dev_analytics
-to database role demo_dev_analytics.admin
-;
-grant all privileges
-on all schemas in database demo_dev_analytics
-to database role demo_dev_analytics.admin
-;
-grant all privileges
-on future schemas in database demo_dev_analytics
-to database role demo_dev_analytics.admin
-;
+CREATE OR REPLACE DATABASE ROLE DEMO_DEV_ANALYTICS.ADMIN;
+GRANT ALL PRIVILEGES ON DATABASE DEMO_DEV_ANALYTICS TO DATABASE ROLE DEMO_DEV_ANALYTICS.ADMIN;
+GRANT ALL PRIVILEGES ON ALL SCHEMAS IN DATABASE DEMO_DEV_ANALYTICS TO DATABASE ROLE DEMO_DEV_ANALYTICS.ADMIN;
+GRANT ALL PRIVILEGES ON FUTURE SCHEMAS IN DATABASE DEMO_DEV_ANALYTICS TO DATABASE ROLE DEMO_DEV_ANALYTICS.ADMIN;
 
-create or replace database role demo_dev_analytics.data_developer
-;
-grant database role demo_dev_analytics.data_developer
-to database role demo_dev_analytics.admin
-;
-grant usage, create schema, monitor
-on database demo_dev_analytics
-to database role demo_dev_analytics.data_developer
-;
-grant
-    usage,
-    monitor,
-    create temporary table,
-    create tag,
-    create pipe,
-    create procedure,
-    create materialized view,
-    create table,
-    create file format,
-    create stage,
-    create task,
-    create function,
-    create external table,
-    create sequence,
-    create view,
-    create stream,
-    create dynamic table
-on all schemas in database demo_dev_analytics
-to database role demo_dev_analytics.data_developer
-;
-grant all privileges
-on schema demo_dev_analytics.internal
-to database role demo_dev_analytics.data_developer
-;
+CREATE OR REPLACE DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_DEVELOPER;
+GRANT DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_DEVELOPER TO DATABASE ROLE DEMO_DEV_ANALYTICS.ADMIN;
+GRANT USAGE, CREATE SCHEMA, MONITOR ON DATABASE DEMO_DEV_ANALYTICS TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_DEVELOPER;
+GRANT USAGE, MONITOR, CREATE TEMPORARY TABLE, CREATE TAG, CREATE PIPE, CREATE PROCEDURE, CREATE MATERIALIZED VIEW, CREATE TABLE, CREATE FILE FORMAT, CREATE STAGE, CREATE TASK, CREATE FUNCTION, CREATE EXTERNAL TABLE,     CREATE SEQUENCE, CREATE VIEW, CREATE STREAM, CREATE DYNAMIC TABLE ON ALL SCHEMAS IN DATABASE DEMO_DEV_ANALYTICS TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_DEVELOPER;
+GRANT ALL PRIVILEGES ON SCHEMA DEMO_DEV_ANALYTICS.INTERNAL TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_DEVELOPER;
 
-create or replace database role demo_dev_analytics.data_analyst
-;
-grant database role demo_dev_analytics.data_analyst
-to database role demo_dev_analytics.data_developer
-;
-grant usage
-on database demo_dev_analytics
-to database role demo_dev_analytics.data_analyst
-;
-grant usage
-on schema demo_dev_analytics.staging
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on all tables in schema demo_dev_analytics.staging
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on future tables in schema demo_dev_analytics.staging
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on all views in schema demo_dev_analytics.staging
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on future views in schema demo_dev_analytics.staging
-to database role demo_dev_analytics.data_analyst
-;
-grant usage
-on schema demo_dev_analytics.intermediate
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on all tables in schema demo_dev_analytics.intermediate
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on future tables in schema demo_dev_analytics.intermediate
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on all views in schema demo_dev_analytics.intermediate
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on future views in schema demo_dev_analytics.intermediate
-to database role demo_dev_analytics.data_analyst
-;
-grant usage
-on schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on all tables in schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on future tables in schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on all views in schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on future views in schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_analyst
-;
-grant usage
-on schema demo_dev_analytics.seeds
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on all tables in schema demo_dev_analytics.seeds
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on future tables in schema demo_dev_analytics.seeds
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on all views in schema demo_dev_analytics.seeds
-to database role demo_dev_analytics.data_analyst
-;
-grant select
-on future views in schema demo_dev_analytics.seeds
-to database role demo_dev_analytics.data_analyst
-;
+CREATE OR REPLACE DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_DEVELOPER;
+GRANT USAGE ON DATABASE DEMO_DEV_ANALYTICS TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT USAGE ON SCHEMA DEMO_DEV_ANALYTICS.STAGING TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON ALL TABLES IN SCHEMA DEMO_DEV_ANALYTICS.STAGING TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON FUTURE TABLES IN SCHEMA DEMO_DEV_ANALYTICS.STAGING TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON ALL VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.STAGING TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON FUTURE VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.STAGING TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT USAGE ON SCHEMA DEMO_DEV_ANALYTICS.INTERMEDIATE TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON ALL TABLES IN SCHEMA DEMO_DEV_ANALYTICS.INTERMEDIATE TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON FUTURE TABLES IN SCHEMA DEMO_DEV_ANALYTICS.INTERMEDIATE TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON ALL VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.INTERMEDIATE TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON FUTURE VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.INTERMEDIATE TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT USAGE ON SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON ALL TABLES IN SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON FUTURE TABLES IN SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON ALL VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON FUTURE VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT USAGE ON SCHEMA DEMO_DEV_ANALYTICS.SEEDS TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON ALL TABLES IN SCHEMA DEMO_DEV_ANALYTICS.SEEDS TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON FUTURE TABLES IN SCHEMA DEMO_DEV_ANALYTICS.SEEDS TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON ALL VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.SEEDS TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT SELECT ON FUTURE VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.SEEDS TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
 
-create or replace database role demo_dev_analytics.data_viewer
-;
-grant database role demo_dev_analytics.data_viewer
-to database role demo_dev_analytics.data_analyst
-;
-grant usage
-on database demo_dev_analytics
-to database role demo_dev_analytics.data_viewer
-;
-grant usage
-on schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_viewer
-;
-grant select
-on all tables in schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_viewer
-;
-grant select
-on future tables in schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_viewer
-;
-grant select
-on all views in schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_viewer
-;
-grant select
-on future views in schema demo_dev_analytics.mart
-to database role demo_dev_analytics.data_viewer
-;
+CREATE OR REPLACE DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_VIEWER;
+GRANT DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_VIEWER TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_ANALYST;
+GRANT USAGE ON DATABASE DEMO_DEV_ANALYTICS TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_VIEWER;
+GRANT USAGE ON SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_VIEWER;
+GRANT SELECT ON ALL TABLES IN SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_VIEWER;
+GRANT SELECT ON FUTURE TABLES IN SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_VIEWER;
+GRANT SELECT ON ALL VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_VIEWER;
+GRANT SELECT ON FUTURE VIEWS IN SCHEMA DEMO_DEV_ANALYTICS.MART TO DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_VIEWER;
 
-use role securityadmin
-;
-grant database role demo_dev_analytics.data_developer
-to role demo_data_developer
-;
-grant database role demo_dev_analytics.admin
-to role demo_admin
-;
+USE ROLE SECURITYADMIN;
+GRANT DATABASE ROLE DEMO_DEV_ANALYTICS.DATA_DEVELOPER TO ROLE DEMO_DATA_DEVELOPER;
+GRANT DATABASE ROLE DEMO_DEV_ANALYTICS.ADMIN TO ROLE DEMO_ADMIN;
 
-use role sysadmin
-;
-create or replace database demo_uat_analytics
-clone demo_dev_analytics
-;
-create or replace database demo_prod_analytics
-clone demo_dev_analytics
-;
+USE ROLE SYSADMIN;
+CREATE OR REPLACE DATABASE DEMO_UAT_ANALYTICS CLONE DEMO_DEV_ANALYTICS;
+CREATE OR REPLACE DATABASE DEMO_PROD_ANALYTICS CLONE DEMO_DEV_ANALYTICS;
 
-use role securityadmin
-;
-grant database role demo_uat_analytics.data_analyst
-to role demo_data_analyst
-;
-grant database role demo_prod_analytics.data_viewer
-to role demo_data_viewer
-;
+USE ROLE SECURITYADMIN;
+GRANT DATABASE ROLE DEMO_UAT_ANALYTICS.DATA_ANALYST TO ROLE DEMO_DATA_ANALYST;
+GRANT DATABASE ROLE DEMO_PROD_ANALYTICS.DATA_VIEWER TO ROLE DEMO_DATA_VIEWER;
