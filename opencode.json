@@ -9,6 +9,11 @@
         "DBT_PROJECT_DIR": ".",
         "DBT_PATH": "./.venv/bin/dbt"
       }
+    },
+    "snowflake": {
+      "type": "local",
+      "command": ["uvx", "snowflake-labs-mcp", "--service-config-file", ".mcp/snowflake_tools.yaml"],
+      "enabled": true
     }
   }
 }

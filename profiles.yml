@@ -4,13 +4,13 @@ snowflake_dbt_demo:
   outputs:
     dev:
       type: snowflake
-      account: "{{ env_var('DBT_SNOWFLAKE_ACCOUNT') | lower }}"
-      user: "{{ env_var('DBT_SNOWFLAKE_USER') | lower }}"
-      private_key_path: "{{ env_var('DBT_SNOWFLAKE_PRIVATE_KEY_PATH') | lower }}"
-      role: "{{ env_var('DBT_SNOWFLAKE_ROLE') | lower }}"
-      warehouse: "{{ env_var('DBT_SNOWFLAKE_WH') | lower }}"
-      database: "{{ env_var('DBT_SNOWFLAKE_DATABASE') | lower }}"
-      schema: "{{ env_var('DBT_SNOWFLAKE_SCHEMA', 'public') | lower }}"
+      account: "{{ env_var('SNOWFLAKE_ACCOUNT') | lower }}"
+      user: "{{ env_var('SNOWFLAKE_USER') | lower }}"
+      private_key_path: "{{ env_var('SNOWFLAKE_PRIVATE_KEY_PATH') | lower }}"
+      role: "{{ env_var('SNOWFLAKE_ROLE') | lower }}"
+      warehouse: "{{ env_var('SNOWFLAKE_WAREHOUSE') | lower }}"
+      database: "{{ env_var('SNOWFLAKE_DATABASE') | lower }}"
+      schema: "{{ env_var('SNOWFLAKE_SCHEMA', 'public') | lower }}"
       threads: 8
       client_session_keep_alive: false
       reuse_connections: true
