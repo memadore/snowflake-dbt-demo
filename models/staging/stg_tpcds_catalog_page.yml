@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_catalog_page
+    description: staging layer for catalog page dimension data from the TPC-DS dataset
+    columns:
+      - name: catalog_page_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: catalog_page_id
+        description: business identifier for the catalog page
+      - name: start_date_key
+        description: foreign key to stg_tpcds_date_dim representing the start date of the catalog page's active period
+      - name: end_date_key
+        description: foreign key to stg_tpcds_date_dim representing the end date of the catalog page's active period
+      - name: department
+        description: department associated with the catalog page
+      - name: catalog_number
+        description: number identifying the catalog this page belongs to
+      - name: catalog_page_number
+        description: page number within the catalog
+      - name: description
+        description: textual description of the catalog page
+      - name: type
+        description: type classification of the catalog page

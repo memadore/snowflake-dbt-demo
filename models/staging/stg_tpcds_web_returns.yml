@@ -1,0 +1,59 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_web_returns
+    description: staging layer for web returns data
+    columns:
+      - name: web_return_key
+        description: primary key of the model, surrogate key generated from item_key and order_number
+        data_tests:
+          - unique
+          - not_null
+      - name: returned_date_key
+        description: foreign key to stg_tpcds_date_dim for the return date
+      - name: returned_time_key
+        description: foreign key to stg_tpcds_time_dim for the return time
+      - name: item_key
+        description: foreign key to stg_tpcds_item
+      - name: refunded_customer_key
+        description: foreign key to stg_tpcds_customer for the customer receiving the refund
+      - name: refunded_customer_demographics_key
+        description: foreign key to stg_tpcds_customer_demographics for the refunded customer demographics
+      - name: refunded_household_demographics_key
+        description: foreign key to stg_tpcds_household_demographics for the refunded household demographics
+      - name: refunded_address_key
+        description: foreign key to stg_tpcds_customer_address for the refunded customer address
+      - name: returning_customer_key
+        description: foreign key to stg_tpcds_customer for the customer making the return
+      - name: returning_customer_demographics_key
+        description: foreign key to stg_tpcds_customer_demographics for the returning customer demographics
+      - name: returning_household_demographics_key
+        description: foreign key to stg_tpcds_household_demographics for the returning household demographics
+      - name: returning_address_key
+        description: foreign key to stg_tpcds_customer_address for the returning customer address
+      - name: web_page_key
+        description: foreign key to stg_tpcds_web_page
+      - name: reason_key
+        description: foreign key to stg_tpcds_reason for the return reason
+      - name: order_number
+        description: order number associated with the original web sale
+      - name: return_quantity
+        description: number of items returned
+      - name: return_amount
+        description: total return amount before tax
+      - name: return_tax
+        description: tax amount on the return
+      - name: return_amount_including_tax
+        description: total return amount including tax
+      - name: fee
+        description: fee charged on the return
+      - name: return_ship_cost
+        description: shipping cost associated with the return
+      - name: refunded_cash
+        description: cash amount refunded to the customer
+      - name: reversed_charge
+        description: charge amount reversed on the return
+      - name: account_credit
+        description: account credit issued for the return
+      - name: net_loss
+        description: net loss incurred from the return

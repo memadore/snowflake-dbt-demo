@@ -1,0 +1,115 @@
+---
+version: 2
+models:
+  - name: fct_fin__net_profit
+    description: |
+      Unified net profit fact table for the finance mart, providing a single view of profitability across all three retail channels (store, web, catalog). Each row is a line-item transaction enriched with calculated margin columns: gross_margin (extended_sales_price minus extended_wholesale_cost) and gross_margin_after_discounts (further subtracting discount and coupon amounts). Supports P&L reporting, margin trend analysis, and channel profitability comparison.
+    config:
+      group: finance
+      contract:
+        enforced: true
+    columns:
+      - name: sale_key
+        description: |
+          Surrogate primary key for the sale, inherited from the channel-specific fact table. Unique across all channels.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: sales_channel
+        description: |
+          Retail channel discriminator: 'store' for brick-and-mortar, 'web' for e-commerce, 'catalog' for mail-order.
+        data_type: varchar
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['store', 'web', 'catalog']
+      - name: sold_date_key
+        description: Foreign key to dim_date representing the date the sale occurred.
+        data_type: number
+      - name: item_key
+        description: Foreign key to dim_item representing the product sold.
+        data_type: number
+        data_tests:
+          - not_null
+      - name: customer_key
+        description: |
+          Foreign key to dim_customer representing the buyer. For web and catalog channels this is the billing customer. Null for anonymous store transactions.
+        data_type: number
+      - name: store_key
+        description: Foreign key to dim_store. Populated only for store channel.
+        data_type: number
+      - name: web_page_key
+        description: Foreign key to dim_web_page. Populated only for web channel.
+        data_type: number
+      - name: web_site_key
+        description: Foreign key to dim_web_site. Populated only for web channel.
+        data_type: number
+      - name: call_center_key
+        description: Foreign key to dim_call_center. Populated only for catalog channel.
+        data_type: number
+      - name: catalog_page_key
+        description: Foreign key to dim_catalog_page. Populated only for catalog channel.
+        data_type: number
+      - name: promotion_key
+        description: Foreign key to the promotion dimension.
+        data_type: number
+      - name: order_number
+        description: |
+          Order or ticket number for the transaction. For store channel this is the ticket_number; for web and catalog channels this is the order_number.
+        data_type: number
+        data_tests:
+          - not_null
+      - name: quantity
+        description: Number of units sold in this line item.
+        data_type: number
+      - name: wholesale_cost
+        description: Per-unit wholesale cost of the item.
+        data_type: number
+      - name: list_price
+        description: Per-unit list price of the item.
+        data_type: number
+      - name: sales_price
+        description: Per-unit actual selling price after discounts.
+        data_type: number
+      - name: extended_sales_price
+        description: Total sales revenue (quantity times sales_price).
+        data_type: number
+      - name: extended_wholesale_cost
+        description: Total wholesale cost (quantity times wholesale_cost).
+        data_type: number
+      - name: extended_discount_amount
+        description: Total discount amount applied (quantity times discount per unit).
+        data_type: number
+      - name: coupon_amount
+        description: Coupon discount amount applied to the line item.
+        data_type: number
+      - name: extended_tax
+        description: Total tax amount applied to the line item.
+        data_type: number
+      - name: extended_ship_cost
+        description: Total shipping cost for the line item. Null for store channel.
+        data_type: number
+      - name: net_paid
+        description: Net amount paid by the customer before tax and shipping.
+        data_type: number
+      - name: net_paid_including_tax
+        description: Net amount paid by the customer including tax but excluding shipping.
+        data_type: number
+      - name: net_paid_including_ship
+        description: Net amount paid including shipping but excluding tax. Null for store channel.
+        data_type: number
+      - name: net_paid_including_ship_and_tax
+        description: Net amount paid including both shipping and tax. Null for store channel.
+        data_type: number
+      - name: net_profit
+        description: Net profit from the line item (net_paid minus wholesale cost).
+        data_type: number
+      - name: gross_margin
+        description: |
+          Gross margin before discounts and coupons, calculated as extended_sales_price minus extended_wholesale_cost. Measures the raw markup on goods sold.
+        data_type: number
+      - name: gross_margin_after_discounts
+        description: |
+          Gross margin after all price concessions, calculated as extended_sales_price minus extended_wholesale_cost minus extended_discount_amount minus coupon_amount. The primary profitability metric for P&L reporting.
+        data_type: number

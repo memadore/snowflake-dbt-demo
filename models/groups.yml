@@ -13,3 +13,11 @@ groups:
     owner:
       name: Walter White
       email: manufacturing@lospolloshermanos.com
+  - name: operations
+    owner:
+      name: Mike Ehrmantraut
+      email: operations@lospolloshermanos.com
+  - name: sales
+    owner:
+      name: Hank Schrader
+      email: sales@lospolloshermanos.com

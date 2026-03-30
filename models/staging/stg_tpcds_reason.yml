@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_reason
+    description: staging layer for reason data from the TPC-DS dataset
+    columns:
+      - name: reason_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: reason_id
+        description: business identifier for the reason, used to track reasons across versions
+      - name: reason_description
+        description: human-readable description of the reason (e.g. reason for a return or cancellation)

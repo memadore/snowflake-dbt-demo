@@ -1,0 +1,21 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_ship_mode
+    description: staging layer for ship mode dimension data from the TPC-DS dataset
+    columns:
+      - name: ship_mode_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: ship_mode_id
+        description: business identifier for the ship mode
+      - name: type
+        description: type of shipment (e.g., standard, overnight)
+      - name: code
+        description: short code representing the ship mode
+      - name: carrier
+        description: name of the carrier providing the shipping service
+      - name: contract
+        description: contract type or identifier associated with the ship mode

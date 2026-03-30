@@ -1,8 +1,0 @@
----
-snapshots:
-  - name: snap_src_tpch_customer
-    relation: source('tpch', 'customer')
-    config:
-      unique_key: c_custkey
-      strategy: check
-      check_cols: all

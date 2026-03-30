@@ -1,0 +1,71 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_call_center
+    description: staging layer for call center dimension data from the TPC-DS dataset
+    columns:
+      - name: call_center_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: call_center_id
+        description: business identifier for the call center
+      - name: record_start_date
+        description: start date of the record's validity period (type 2 SCD)
+      - name: record_end_date
+        description: end date of the record's validity period (type 2 SCD)
+      - name: closed_date_key
+        description: foreign key to stg_tpcds_date_dim representing when the call center was closed
+      - name: open_date_key
+        description: foreign key to stg_tpcds_date_dim representing when the call center opened
+      - name: name
+        description: name of the call center
+      - name: class
+        description: class designation of the call center
+      - name: employee_count
+        description: number of employees at the call center
+      - name: square_footage
+        description: physical size of the call center in square feet
+      - name: hours
+        description: hours of operation for the call center
+      - name: manager
+        description: name of the call center manager
+      - name: market_id
+        description: identifier of the market the call center belongs to
+      - name: market_class
+        description: classification of the market
+      - name: market_description
+        description: description of the market
+      - name: market_manager
+        description: name of the market manager
+      - name: division_id
+        description: identifier of the division the call center belongs to
+      - name: division_name
+        description: name of the division
+      - name: company_id
+        description: identifier of the company the call center belongs to
+      - name: company_name
+        description: name of the company
+      - name: street_number
+        description: street number of the call center address
+      - name: street_name
+        description: street name of the call center address
+      - name: street_type
+        description: street type (e.g., Ave, Blvd) of the call center address
+      - name: suite_number
+        description: suite or unit number of the call center address
+      - name: city
+        description: city where the call center is located
+      - name: county
+        description: county where the call center is located
+      - name: state
+        description: state where the call center is located
+      - name: zip_code
+        description: zip code of the call center address
+      - name: country
+        description: country where the call center is located
+      - name: gmt_offset
+        description: GMT timezone offset for the call center location
+      - name: tax_percentage
+        description: tax percentage applicable to the call center

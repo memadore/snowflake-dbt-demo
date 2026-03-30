@@ -1,0 +1,58 @@
+---
+version: 2
+models:
+  - name: dim_ops__warehouse
+    description: |
+      Warehouse dimension for the operations mart. Contains location details and physical characteristics for each distribution and storage facility. Used to analyze inventory distribution, fulfillment capacity, and geographic coverage of the warehouse network.
+    config:
+      group: operations
+      contract:
+        enforced: true
+    columns:
+      - name: warehouse_key
+        description: Surrogate key for the warehouse dimension, used as the join key from inventory and return fact tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: warehouse_id
+        description: Business identifier for the warehouse. Stable across operational changes.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: warehouse_name
+        description: Name of the warehouse facility.
+        data_type: varchar
+      - name: warehouse_square_footage
+        description: Total usable floor space of the warehouse in square feet.
+        data_type: number
+      - name: street_number
+        description: Street number of the warehouse address.
+        data_type: varchar
+      - name: street_name
+        description: Street name of the warehouse address.
+        data_type: varchar
+      - name: street_type
+        description: Street type suffix (e.g., Ave, Blvd, Dr.).
+        data_type: varchar
+      - name: suite_number
+        description: Suite or unit number of the warehouse address.
+        data_type: varchar
+      - name: city
+        description: City where the warehouse is located.
+        data_type: varchar
+      - name: county
+        description: County where the warehouse is located.
+        data_type: varchar
+      - name: state
+        description: Two-letter state abbreviation where the warehouse is located.
+        data_type: varchar
+      - name: zip_code
+        description: ZIP code of the warehouse location.
+        data_type: varchar
+      - name: country
+        description: Country where the warehouse is located.
+        data_type: varchar
+      - name: gmt_offset
+        description: GMT timezone offset for the warehouse location.
+        data_type: number

@@ -30,6 +30,7 @@ repos:
       - id: check-script-semicolon
         exclude: '(jobs|scripts)/.*'
       - id: check-script-has-no-table-name
+        exclude: '(jobs|scripts)/.*'
       - id: check-model-has-all-columns
         name: Check columns - core
         files: ^models/core

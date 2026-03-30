@@ -1,0 +1,45 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_customer
+    description: staging layer for customer dimension data from the TPC-DS dataset
+    columns:
+      - name: customer_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: business identifier for the customer
+      - name: current_customer_demographics_key
+        description: foreign key to stg_tpcds_customer_demographics representing the customer's current demographic profile
+      - name: current_household_demographics_key
+        description: foreign key to the household demographics dimension representing the customer's current household profile
+      - name: current_address_key
+        description: foreign key to stg_tpcds_customer_address representing the customer's current address
+      - name: first_shipto_date_key
+        description: foreign key to stg_tpcds_date_dim representing the date of the customer's first shipment
+      - name: first_sales_date_key
+        description: foreign key to stg_tpcds_date_dim representing the date of the customer's first sale
+      - name: salutation
+        description: salutation or title used to address the customer (e.g., Mr., Ms., Dr.)
+      - name: first_name
+        description: customer's first name
+      - name: last_name
+        description: customer's last name
+      - name: is_preferred_customer
+        description: flag indicating whether the customer is a preferred customer
+      - name: birth_day
+        description: day of the month the customer was born
+      - name: birth_month
+        description: month the customer was born
+      - name: birth_year
+        description: year the customer was born
+      - name: birth_country
+        description: country where the customer was born
+      - name: login
+        description: customer's login username
+      - name: email_address
+        description: customer's email address
+      - name: last_review_date
+        description: date of the customer's last review or interaction

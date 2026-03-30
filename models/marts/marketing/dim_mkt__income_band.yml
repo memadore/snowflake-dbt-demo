@@ -1,0 +1,23 @@
+---
+version: 2
+models:
+  - name: dim_mkt__income_band
+    description: |
+      Income band dimension for the marketing mart. Defines specific annual income ranges used to categorize household purchasing power. Each row represents a discrete income bracket with lower and upper dollar bounds. Join to dim_household_demographics on income_band_key for household-level income analysis.
+    config:
+      group: marketing
+      contract:
+        enforced: true
+    columns:
+      - name: income_band_key
+        description: Surrogate key for the income band dimension, used as the join key from household demographics.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: lower_bound
+        description: Lower bound of the annual income range for this band (in dollars, inclusive).
+        data_type: number
+      - name: upper_bound
+        description: Upper bound of the annual income range for this band (in dollars, inclusive).
+        data_type: number

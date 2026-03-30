@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_promotion
+    description: staging layer for promotion data from the TPC-DS dataset
+    columns:
+      - name: promotion_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: promotion_id
+        description: business identifier for the promotion, used to track promotions across versions
+      - name: start_date_key
+        description: foreign key to stg_tpcds_date_dim representing the promotion start date
+      - name: end_date_key
+        description: foreign key to stg_tpcds_date_dim representing the promotion end date
+      - name: item_key
+        description: foreign key to stg_tpcds_item for the item associated with this promotion
+      - name: cost
+        description: total cost to run the promotion
+      - name: response_target
+        description: target response rate for the promotion
+      - name: promotion_name
+        description: descriptive name of the promotion
+      - name: channel_direct_mail
+        description: flag indicating whether the promotion ran via direct mail channel (Y/N)
+      - name: channel_email
+        description: flag indicating whether the promotion ran via email channel (Y/N)
+      - name: channel_catalog
+        description: flag indicating whether the promotion ran via catalog channel (Y/N)
+      - name: channel_tv
+        description: flag indicating whether the promotion ran via television channel (Y/N)
+      - name: channel_radio
+        description: flag indicating whether the promotion ran via radio channel (Y/N)
+      - name: channel_press
+        description: flag indicating whether the promotion ran via press/print channel (Y/N)
+      - name: channel_event
+        description: flag indicating whether the promotion ran via events channel (Y/N)
+      - name: channel_demo
+        description: flag indicating whether the promotion ran via in-store demonstration channel (Y/N)
+      - name: channel_details
+        description: free-text details about the promotion channels used
+      - name: purpose
+        description: business purpose or goal of the promotion
+      - name: is_discount_active
+        description: flag indicating whether the discount associated with this promotion is currently active (Y/N)

@@ -1,0 +1,106 @@
+---
+version: 2
+models:
+  - name: dim_sls__store
+    description: |
+      Physical retail store dimension for the sales mart. Contains location details, staffing metadata, and market classification for each brick-and-mortar store. Modeled as a slowly changing dimension (Type 2); use is_current_record to filter to the latest version or join on store_key for point-in-time fact accuracy.
+    config:
+      group: sales
+      contract:
+        enforced: true
+    columns:
+      - name: store_key
+        description: Surrogate key for the store dimension, used as the join key from store sales fact tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: store_id
+        description: Business identifier for the store. Shared across SCD versions.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: store_name
+        description: Name of the store.
+        data_type: varchar
+      - name: employee_count
+        description: Number of employees at the store.
+        data_type: number
+      - name: floor_space
+        description: Total floor space of the store in square feet.
+        data_type: number
+      - name: hours
+        description: Operating hours of the store (e.g., 8AM-4PM).
+        data_type: varchar
+      - name: manager
+        description: Full name of the store manager.
+        data_type: varchar
+      - name: market_id
+        description: Identifier for the market the store belongs to.
+        data_type: number
+      - name: geography_class
+        description: Geographic classification of the store location.
+        data_type: varchar
+      - name: market_description
+        description: Text description of the market segment.
+        data_type: varchar
+      - name: market_manager
+        description: Full name of the market manager overseeing this store.
+        data_type: varchar
+      - name: division_id
+        description: Identifier for the organizational division.
+        data_type: number
+      - name: division_name
+        description: Name of the organizational division.
+        data_type: varchar
+      - name: company_id
+        description: Identifier for the parent company.
+        data_type: number
+      - name: company_name
+        description: Name of the parent company.
+        data_type: varchar
+      - name: street_number
+        description: Street number of the store address.
+        data_type: varchar
+      - name: street_name
+        description: Street name of the store address.
+        data_type: varchar
+      - name: street_type
+        description: Street type suffix (e.g., Wy, Dr., Blvd).
+        data_type: varchar
+      - name: suite_number
+        description: Suite or unit number of the store address.
+        data_type: varchar
+      - name: city
+        description: City where the store is located.
+        data_type: varchar
+      - name: county
+        description: County where the store is located.
+        data_type: varchar
+      - name: state
+        description: Two-letter state abbreviation where the store is located.
+        data_type: varchar
+      - name: zip_code
+        description: ZIP code of the store location.
+        data_type: varchar
+      - name: country
+        description: Country where the store is located.
+        data_type: varchar
+      - name: gmt_offset
+        description: GMT timezone offset for the store location.
+        data_type: number
+      - name: tax_percentage
+        description: Local tax percentage applied at this store.
+        data_type: number
+      - name: closed_date_key
+        description: Foreign key to dim_date representing the date the store was closed. Null if the store is still open.
+        data_type: number
+      - name: record_start_date
+        description: Date when this version of the store record became effective.
+        data_type: date
+      - name: record_end_date
+        description: Date when this version of the store record expired. Null if this is the currently active version.
+        data_type: date
+      - name: is_current_record
+        description: Boolean flag indicating whether this is the currently active version of the store record.
+        data_type: boolean

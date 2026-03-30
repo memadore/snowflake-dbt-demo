@@ -1,0 +1,79 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_web_sales
+    description: staging layer for web sales data
+    columns:
+      - name: web_sale_key
+        description: primary key of the model, surrogate key generated from item_key and order_number
+        data_tests:
+          - unique
+          - not_null
+      - name: sold_date_key
+        description: foreign key to stg_tpcds_date_dim
+      - name: sold_time_key
+        description: foreign key to stg_tpcds_time_dim
+      - name: ship_date_key
+        description: foreign key to stg_tpcds_date_dim for the ship date
+      - name: item_key
+        description: foreign key to stg_tpcds_item
+      - name: bill_customer_key
+        description: foreign key to stg_tpcds_customer for the billing customer
+      - name: bill_customer_demographics_key
+        description: foreign key to stg_tpcds_customer_demographics for the billing customer demographics
+      - name: bill_household_demographics_key
+        description: foreign key to stg_tpcds_household_demographics for the billing household demographics
+      - name: bill_address_key
+        description: foreign key to stg_tpcds_customer_address for the billing address
+      - name: ship_customer_key
+        description: foreign key to stg_tpcds_customer for the shipping customer
+      - name: ship_customer_demographics_key
+        description: foreign key to stg_tpcds_customer_demographics for the shipping customer demographics
+      - name: ship_household_demographics_key
+        description: foreign key to stg_tpcds_household_demographics for the shipping household demographics
+      - name: ship_address_key
+        description: foreign key to stg_tpcds_customer_address for the shipping address
+      - name: web_page_key
+        description: foreign key to stg_tpcds_web_page
+      - name: web_site_key
+        description: foreign key to stg_tpcds_web_site
+      - name: ship_mode_key
+        description: foreign key to stg_tpcds_ship_mode
+      - name: warehouse_key
+        description: foreign key to stg_tpcds_warehouse
+      - name: promotion_key
+        description: foreign key to stg_tpcds_promotion
+      - name: order_number
+        description: order number associated with the web sale
+      - name: quantity
+        description: number of items sold
+      - name: wholesale_cost
+        description: wholesale cost of the item
+      - name: list_price
+        description: listed price of the item
+      - name: sales_price
+        description: actual sales price of the item
+      - name: extended_discount_amount
+        description: total discount amount applied to the line item
+      - name: extended_sales_price
+        description: total sales price for the line item quantity
+      - name: extended_wholesale_cost
+        description: total wholesale cost for the line item quantity
+      - name: extended_list_price
+        description: total list price for the line item quantity
+      - name: extended_tax
+        description: total tax amount for the line item
+      - name: coupon_amount
+        description: coupon discount amount applied to the sale
+      - name: extended_ship_cost
+        description: total shipping cost for the line item
+      - name: net_paid
+        description: net amount paid for the sale
+      - name: net_paid_including_tax
+        description: net amount paid including tax
+      - name: net_paid_including_ship
+        description: net amount paid including shipping cost
+      - name: net_paid_including_ship_tax
+        description: net amount paid including shipping cost and tax
+      - name: net_profit
+        description: net profit from the sale

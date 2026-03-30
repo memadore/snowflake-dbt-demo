@@ -1,0 +1,15 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_income_band
+    description: staging layer for income band data from the TPC-DS dataset
+    columns:
+      - name: income_band_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: lower_bound
+        description: lower bound of the income range for this band (in dollars)
+      - name: upper_bound
+        description: upper bound of the income range for this band (in dollars)

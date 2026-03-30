@@ -1,0 +1,44 @@
+---
+version: 2
+models:
+  - name: fct_ops__inventory
+    description: |
+      Weekly inventory snapshot fact table for the operations mart. Each row represents the exact quantity of a particular item on-hand at a given warehouse during a specific week. Used to monitor stock levels, calculate inventory turnover, identify stockouts, and analyze supply chain efficiency across the warehouse network.
+    config:
+      group: operations
+      contract:
+        enforced: true
+    columns:
+      - name: inventory_key
+        description: Surrogate primary key generated from date_key, item_key, and warehouse_key.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: date_key
+        description: Foreign key to dim_date representing the weekly snapshot date.
+        data_type: number
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: item_key
+        description: Foreign key to dim_item representing the product being tracked.
+        data_type: number
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_item')
+              field: item_key
+      - name: warehouse_key
+        description: Foreign key to dim_warehouse representing the storage facility holding the inventory.
+        data_type: number
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_warehouse')
+              field: warehouse_key
+      - name: quantity_on_hand
+        description: Number of units of the item currently in stock at the warehouse for this snapshot week.
+        data_type: number

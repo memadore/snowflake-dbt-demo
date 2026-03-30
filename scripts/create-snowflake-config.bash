@@ -11,15 +11,15 @@ cat > "$CONFIG_FILE" << EOF
 default_connection_name = "local"
 [connections]
 [connections.local]
-account = "${DBT_SNOWFLAKE_ACCOUNT}"
-user = "${DBT_SNOWFLAKE_USER}"
+account = "${SNOWFLAKE_ACCOUNT}"
+user = "${SNOWFLAKE_USER}"
 authenticator="SNOWFLAKE_JWT"
-private_key_path = "${DBT_SNOWFLAKE_PRIVATE_KEY_PATH}"
-private_key_passphase = "${DBT_SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}"
-role = "${DBT_SNOWFLAKE_ROLE}"
-warehouse = "${DBT_SNOWFLAKE_WH}"
-database = "${DBT_SNOWFLAKE_DATABASE}"
-schema = "${DBT_SNOWFLAKE_SCHEMA}"
+private_key_path = "${SNOWFLAKE_PRIVATE_KEY_PATH}"
+private_key_passphase = "${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}"
+role = "${SNOWFLAKE_ROLE}"
+warehouse = "${SNOWFLAKE_WAREHOUSE}"
+database = "${SNOWFLAKE_DATABASE}"
+schema = "${SNOWFLAKE_SCHEMA}"
 EOF
 
 chmod 0600 "$CONFIG_FILE"

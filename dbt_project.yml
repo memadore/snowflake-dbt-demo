@@ -37,8 +37,18 @@ models:
     staging:
       +schema: staging
       +access: protected
-    mart:
-      core:
-        +access: public
-        +schema: mart
-        +materialized: table
+    marts:
+      +database: |
+        demo_{{ env_var('ENVIRONMENT', 'dev') }}_marts
+      +access: public
+      +materialized: view
+      finance:
+        +schema: finance
+      marketing:
+        +schema: marketing
+      operations:
+        +schema: operations
+      public:
+        +schema: public
+      sales:
+        +schema: sales

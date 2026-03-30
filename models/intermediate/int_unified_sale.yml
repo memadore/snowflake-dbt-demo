@@ -1,0 +1,100 @@
+---
+version: 2
+models:
+  - name: int_unified_sale
+    description: |
+      Intermediate model that unifies sales transactions from all three retail channels (store, web, catalog) into a single consistent schema. Each row is a line-item transaction sourced directly from the staging layer, with a sales_channel discriminator and standardized column names. Channel-specific dimension keys (store_key, web_site_key, web_page_key, call_center_key, catalog_page_key) are null when not applicable. This model serves as the shared foundation for downstream mart models that require omnichannel sales data (e.g., fct_sls__sale, fct_fin__net_profit, rpt_mkt_promo_dly_smr).
+    columns:
+      - name: sale_key
+        description: |
+          Surrogate primary key for the unified sale, inherited from the channel-specific staging table (store_sale_key, web_sale_key, or catalog_sale_key). Unique across all channels.
+        data_tests:
+          - unique
+          - not_null
+      - name: sales_channel
+        description: |
+          Discriminator identifying the retail channel: 'store' for brick-and-mortar, 'web' for e-commerce, 'catalog' for mail-order.
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['store', 'web', 'catalog']
+      - name: sold_date_key
+        description: Foreign key to dim_date representing the date the sale occurred.
+      - name: sold_time_key
+        description: Foreign key to dim_time representing the time the sale occurred.
+      - name: ship_date_key
+        description: Foreign key to dim_date representing the date the item was shipped. Null for store channel.
+      - name: item_key
+        description: Foreign key to dim_item representing the product sold.
+        data_tests:
+          - not_null
+      - name: customer_key
+        description: |
+          Foreign key to dim_customer representing the buyer. For web and catalog channels, this maps to the billing customer. Null for anonymous store transactions.
+      - name: customer_demographics_key
+        description: Foreign key to the customer demographics dimension for the buyer.
+      - name: household_demographics_key
+        description: Foreign key to the household demographics dimension for the buyer.
+      - name: address_key
+        description: Foreign key to dim_customer_address for the buyer's address. For web and catalog channels, this is the billing address.
+      - name: ship_customer_key
+        description: Foreign key to dim_customer for the shipping recipient. Null for store channel.
+      - name: ship_customer_demographics_key
+        description: Foreign key to the customer demographics dimension for the shipping recipient. Null for store channel.
+      - name: ship_household_demographics_key
+        description: Foreign key to the household demographics dimension for the shipping recipient. Null for store channel.
+      - name: ship_address_key
+        description: Foreign key to dim_customer_address for the shipping address. Null for store channel.
+      - name: store_key
+        description: Foreign key to dim_store. Populated only for store channel.
+      - name: web_page_key
+        description: Foreign key to dim_web_page. Populated only for web channel.
+      - name: web_site_key
+        description: Foreign key to dim_web_site. Populated only for web channel.
+      - name: call_center_key
+        description: Foreign key to dim_call_center. Populated only for catalog channel.
+      - name: catalog_page_key
+        description: Foreign key to dim_catalog_page. Populated only for catalog channel.
+      - name: ship_mode_key
+        description: Foreign key to the shipping mode dimension. Null for store channel.
+      - name: warehouse_key
+        description: Foreign key to the warehouse dimension. Null for store channel.
+      - name: promotion_key
+        description: Foreign key to the promotion dimension.
+      - name: order_number
+        description: |
+          Order or ticket number for the transaction. For store channel this is the ticket_number; for web and catalog channels this is the order_number.
+        data_tests:
+          - not_null
+      - name: quantity
+        description: Number of units sold in this line item.
+      - name: wholesale_cost
+        description: Per-unit wholesale cost of the item.
+      - name: list_price
+        description: Per-unit list price of the item.
+      - name: sales_price
+        description: Per-unit actual selling price after discounts.
+      - name: extended_discount_amount
+        description: Total discount amount applied (quantity times discount per unit).
+      - name: extended_sales_price
+        description: Total sales revenue (quantity times sales_price).
+      - name: extended_wholesale_cost
+        description: Total wholesale cost (quantity times wholesale_cost).
+      - name: extended_list_price
+        description: Total list price (quantity times list_price).
+      - name: extended_tax
+        description: Total tax amount applied to the line item.
+      - name: coupon_amount
+        description: Coupon discount amount applied to the line item.
+      - name: extended_ship_cost
+        description: Total shipping cost for the line item. Null for store channel.
+      - name: net_paid
+        description: Net amount paid by the customer before tax and shipping.
+      - name: net_paid_including_tax
+        description: Net amount paid by the customer including tax but excluding shipping.
+      - name: net_paid_including_ship
+        description: Net amount paid by the customer including shipping but excluding tax. Null for store channel.
+      - name: net_paid_including_ship_and_tax
+        description: Net amount paid by the customer including both shipping and tax. Null for store channel.
+      - name: net_profit
+        description: Net profit from the line item (net_paid minus wholesale cost).

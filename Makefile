@@ -27,6 +27,9 @@ dbt-project-evaluator:
 	export DBT_PROJECT_EVALUATOR_SEVERITY=error &&\
 	uv run dbt build --select package:dbt_project_evaluator
 
+dbt-run:
+	uv run dbt run
+
 dbt-snapshot:
 	uv run dbt snapshot
 

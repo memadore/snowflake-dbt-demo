@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: dim_mkt__household_demographics
+    description: |
+      Household demographics dimension for the marketing mart. Provides domestic context including the number of dependents, vehicle ownership, buying potential, and the denormalized income band range. Used for household-level segmentation and targeting cohorts by purchasing power and family composition.
+    config:
+      group: marketing
+      contract:
+        enforced: true
+    columns:
+      - name: household_demographics_key
+        description: Surrogate key for the household demographics dimension, used as the join key from fact and customer tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: income_band_key
+        description: Foreign key to dim_income_band for the household's income range.
+        data_type: number
+      - name: income_band_lower_bound
+        description: Lower bound of the household's annual income range (in dollars), denormalized from income band.
+        data_type: number
+      - name: income_band_upper_bound
+        description: Upper bound of the household's annual income range (in dollars), denormalized from income band.
+        data_type: number
+      - name: buy_potential
+        description: Categorical indicator of the household's buying potential (e.g., 0-500, 501-1000, 1001-5000, 5001-10000, Unknown).
+        data_type: varchar
+      - name: dependent_count
+        description: Number of dependents in the household.
+        data_type: number
+      - name: vehicle_count
+        description: Number of vehicles owned by the household.
+        data_type: number

@@ -1,0 +1,47 @@
+---
+version: 2
+models:
+  - name: dim_time
+    description: |
+      Conformed time dimension representing every second in a 24-hour cycle. Designed for intraday analysis, enabling joins from fact tables on time-of-day surrogate keys. Includes shift and meal-time classifications for workforce and operational reporting.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: time_key
+        description: Surrogate key for the time dimension, used as the join key from fact tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: time_id
+        description: Business identifier for the time record.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: time_in_seconds
+        description: Time of day expressed as total seconds since midnight (0-86399).
+        data_type: number
+        data_tests:
+          - not_null
+      - name: hour
+        description: Hour component of the time (0-23).
+        data_type: number
+      - name: minute
+        description: Minute component of the time (0-59).
+        data_type: number
+      - name: second
+        description: Second component of the time (0-59).
+        data_type: number
+      - name: am_pm
+        description: AM or PM designation for the time.
+        data_type: varchar
+      - name: shift
+        description: Work shift classification (e.g., first, second, third) for operational reporting.
+        data_type: varchar
+      - name: sub_shift
+        description: Sub-division of the work shift (e.g., night, morning).
+        data_type: varchar
+      - name: meal_time
+        description: Meal period classification (e.g., breakfast, lunch, dinner). Null when no meal period applies.
+        data_type: varchar

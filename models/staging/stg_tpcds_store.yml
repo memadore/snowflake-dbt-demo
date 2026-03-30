@@ -1,0 +1,67 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_store
+    description: staging layer for store dimension data from the TPC-DS dataset
+    columns:
+      - name: store_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: store_id
+        description: business identifier for the store
+      - name: record_start_date
+        description: start date of the record's validity period (type 2 SCD)
+      - name: record_end_date
+        description: end date of the record's validity period (type 2 SCD)
+      - name: closed_date_key
+        description: foreign key to stg_tpcds_date_dim representing when the store was closed
+      - name: store_name
+        description: name of the store
+      - name: employee_count
+        description: number of employees at the store
+      - name: floor_space
+        description: physical size of the store in square feet
+      - name: hours
+        description: hours of operation for the store
+      - name: manager
+        description: name of the store manager
+      - name: market_id
+        description: identifier of the market the store belongs to
+      - name: geography_class
+        description: geographic classification of the store's location
+      - name: market_description
+        description: description of the market the store serves
+      - name: market_manager
+        description: name of the market manager overseeing this store
+      - name: division_id
+        description: identifier of the division the store belongs to
+      - name: division_name
+        description: name of the division the store belongs to
+      - name: company_id
+        description: identifier of the company that owns the store
+      - name: company_name
+        description: name of the company that owns the store
+      - name: street_number
+        description: street number of the store address
+      - name: street_name
+        description: street name of the store address
+      - name: street_type
+        description: street type (e.g., Ave, Blvd) of the store address
+      - name: suite_number
+        description: suite or unit number of the store address
+      - name: city
+        description: city where the store is located
+      - name: county
+        description: county where the store is located
+      - name: state
+        description: state where the store is located
+      - name: zip_code
+        description: zip code of the store address
+      - name: country
+        description: country where the store is located
+      - name: gmt_offset
+        description: GMT timezone offset for the store location
+      - name: tax_percentage
+        description: tax percentage applicable to the store (source column has typo "PRECENTAGE")

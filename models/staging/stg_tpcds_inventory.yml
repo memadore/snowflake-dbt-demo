@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_inventory
+    description: staging layer for inventory data
+    columns:
+      - name: inventory_key
+        description: primary key of the model, surrogate key generated from date_key, item_key, and warehouse_key
+        data_tests:
+          - unique
+          - not_null
+      - name: date_key
+        description: foreign key to stg_tpcds_date_dim
+      - name: item_key
+        description: foreign key to stg_tpcds_item
+      - name: warehouse_key
+        description: foreign key to stg_tpcds_warehouse
+      - name: quantity_on_hand
+        description: quantity of the item currently on hand at the warehouse

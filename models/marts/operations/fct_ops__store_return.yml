@@ -1,0 +1,83 @@
+---
+version: 2
+models:
+  - name: fct_ops__store_return
+    description: |
+      Line-item fact table for in-store returns in the operations mart. Each row represents a single item returned at a brick-and-mortar store, identified by the combination of item and ticket number. Used by operations to manage reverse logistics, track restocking volumes, and analyze return patterns across the store network.
+    config:
+      group: operations
+      contract:
+        enforced: true
+    columns:
+      - name: store_return_key
+        description: Surrogate primary key generated from item_key and ticket_number.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: returned_date_key
+        description: Foreign key to dim_date representing the date the return was processed.
+        data_type: number
+        data_tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: return_time_key
+        description: Foreign key to dim_time representing the time the return was processed.
+        data_type: number
+        data_tests:
+          - relationships:
+              to: ref('dim_time')
+              field: time_key
+      - name: item_key
+        description: Foreign key to dim_item representing the product returned.
+        data_type: number
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_item')
+              field: item_key
+      - name: customer_key
+        description: Foreign key to dim_customer representing the customer who made the return.
+        data_type: number
+      - name: store_key
+        description: Foreign key to the store dimension representing the physical store where the return occurred.
+        data_type: number
+      - name: reason_key
+        description: Foreign key to the reason dimension describing why the item was returned.
+        data_type: number
+      - name: ticket_number
+        description: Original transaction ticket number. Part of the composite natural key.
+        data_type: number
+        data_tests:
+          - not_null
+      - name: return_quantity
+        description: Number of units returned in this line item.
+        data_type: number
+      - name: return_amount
+        description: Total return amount before tax.
+        data_type: number
+      - name: return_tax
+        description: Tax amount on the return.
+        data_type: number
+      - name: return_amount_including_tax
+        description: Total return amount including tax.
+        data_type: number
+      - name: fee
+        description: Fee charged on the return transaction.
+        data_type: number
+      - name: return_ship_cost
+        description: Shipping cost associated with the return, relevant for reverse logistics cost tracking.
+        data_type: number
+      - name: refunded_cash
+        description: Cash amount refunded to the customer.
+        data_type: number
+      - name: reversed_charge
+        description: Charge amount reversed on the customer's account.
+        data_type: number
+      - name: store_credit
+        description: Store credit issued to the customer instead of cash refund.
+        data_type: number
+      - name: net_loss
+        description: Net loss to the business from this return transaction.
+        data_type: number

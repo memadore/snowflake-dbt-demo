@@ -1,0 +1,35 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_customer_address
+    description: staging layer for customer address dimension data from the TPC-DS dataset
+    columns:
+      - name: address_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: address_id
+        description: business identifier for the address
+      - name: street_number
+        description: street number of the address
+      - name: street_name
+        description: street name of the address
+      - name: street_type
+        description: street type (e.g., Ave, Blvd, St) of the address
+      - name: suite_number
+        description: suite or unit number of the address
+      - name: city
+        description: city of the address
+      - name: county
+        description: county of the address
+      - name: state
+        description: state of the address
+      - name: zip_code
+        description: zip or postal code of the address
+      - name: country
+        description: country of the address
+      - name: gmt_offset
+        description: GMT timezone offset for the address location
+      - name: location_type
+        description: type of location (e.g., apartment, house, condo)

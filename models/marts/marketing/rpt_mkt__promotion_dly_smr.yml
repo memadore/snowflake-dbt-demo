@@ -1,0 +1,79 @@
+---
+version: 2
+models:
+  - name: rpt_mkt__promotion_dly_smr
+    description: |
+      Daily Promotion Sales Summary for the marketing mart. Contains only transactions where a promotion was applied (promotion_key is not null), aggregated to the grain of promotion, sales channel, date, customer, customer demographics, household demographics, and item. Provides the revenue and cost measures needed to calculate promotion ROI, analyze CLV for promotion-responsive customers, and segment effectiveness by demographic cohort. Grain: 1 row per Promotion × Sales Channel × Date × Customer × Demographics × Item.
+    config:
+      group: marketing
+      contract:
+        enforced: true
+    columns:
+      - name: promotion_sale_key
+        description: |
+          Surrogate primary key generated from the combination of promotion_key, sales_channel, sold_date_key, customer_key, customer_demographics_key, household_demographics_key, and item_key.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: promotion_key
+        description: Foreign key to dim_promotion representing the applied promotion.
+        data_type: number
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_promotion')
+              field: promotion_key
+      - name: sales_channel
+        description: |
+          Retail channel where the promotion-driven sale occurred: 'store' for brick-and-mortar, 'web' for e-commerce, 'catalog' for mail-order.
+        data_type: varchar
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['store', 'web', 'catalog']
+      - name: sold_date_key
+        description: Foreign key to dim_date representing the date the sale occurred.
+        data_type: number
+      - name: customer_key
+        description: Foreign key to dim_customer representing the buyer. Null for anonymous store transactions.
+        data_type: number
+      - name: customer_demographics_key
+        description: Foreign key to dim_customer_demographics for the buyer's demographic profile.
+        data_type: number
+      - name: household_demographics_key
+        description: Foreign key to dim_household_demographics for the buyer's household profile.
+        data_type: number
+      - name: item_key
+        description: Foreign key to dim_item representing the product sold under this promotion.
+        data_type: number
+      - name: total_quantity
+        description: Total number of units sold under this promotion for the given grain.
+        data_type: number
+      - name: total_sales_revenue
+        description: Total sales revenue (sum of extended_sales_price) for the promotion at this grain.
+        data_type: number
+      - name: total_wholesale_cost
+        description: Total wholesale cost (sum of extended_wholesale_cost) for the promotion at this grain.
+        data_type: number
+      - name: total_list_price
+        description: Total list price (sum of extended_list_price) for the promotion at this grain.
+        data_type: number
+      - name: total_discount_amount
+        description: Total discount amount applied (sum of extended_discount_amount) for the promotion at this grain.
+        data_type: number
+      - name: total_coupon_amount
+        description: Total coupon discount applied (sum of coupon_amount) for the promotion at this grain.
+        data_type: number
+      - name: total_net_paid
+        description: Total net amount paid by customers (sum of net_paid) before tax for the promotion at this grain.
+        data_type: number
+      - name: total_net_paid_including_tax
+        description: Total net amount paid including tax (sum of net_paid_including_tax) for the promotion at this grain.
+        data_type: number
+      - name: total_net_profit
+        description: Total net profit (sum of net_profit) for the promotion at this grain.
+        data_type: number
+      - name: line_item_count
+        description: Number of individual line-item transactions aggregated into this row.
+        data_type: number

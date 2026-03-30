@@ -1,0 +1,61 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_web_site
+    description: staging layer for web site dimension data from the TPC-DS dataset
+    columns:
+      - name: web_site_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: web_site_id
+        description: business identifier for the web site
+      - name: record_start_date
+        description: start date of the record's validity period (type 2 SCD)
+      - name: record_end_date
+        description: end date of the record's validity period (type 2 SCD)
+      - name: name
+        description: name of the web site
+      - name: open_date_key
+        description: foreign key to stg_tpcds_date_dim representing when the web site opened
+      - name: close_date_key
+        description: foreign key to stg_tpcds_date_dim representing when the web site closed
+      - name: class
+        description: class or category designation of the web site
+      - name: manager
+        description: name of the web site manager
+      - name: market_id
+        description: identifier of the market the web site belongs to
+      - name: market_class
+        description: classification of the market the web site serves
+      - name: market_description
+        description: description of the market the web site serves
+      - name: market_manager
+        description: name of the market manager overseeing this web site
+      - name: company_id
+        description: identifier of the company that owns the web site
+      - name: company_name
+        description: name of the company that owns the web site
+      - name: street_number
+        description: street number of the web site's registered address
+      - name: street_name
+        description: street name of the web site's registered address
+      - name: street_type
+        description: street type (e.g., Ave, Blvd) of the web site's registered address
+      - name: suite_number
+        description: suite or unit number of the web site's registered address
+      - name: city
+        description: city of the web site's registered address
+      - name: county
+        description: county of the web site's registered address
+      - name: state
+        description: state of the web site's registered address
+      - name: zip_code
+        description: zip code of the web site's registered address
+      - name: country
+        description: country of the web site's registered address
+      - name: gmt_offset
+        description: GMT timezone offset for the web site's registered location
+      - name: tax_percentage
+        description: tax percentage applicable to the web site
