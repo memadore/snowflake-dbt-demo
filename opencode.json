@@ -12,7 +12,7 @@
     },
     "snowflake": {
       "type": "local",
-      "command": ["uvx", "snowflake-labs-mcp", "--service-config-file", ".mcp/snowflake_tools.yaml"],
+      "command": ["uvx", "snowflake-labs-mcp", "--service-config-file", ".mcp/snowflake_tools.yaml", "--connection", "lab"],
       "enabled": true
     }
   }

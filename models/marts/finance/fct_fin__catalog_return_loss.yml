@@ -1,0 +1,81 @@
+---
+version: 2
+models:
+  - name: fct_fin__catalog_return_loss
+    description: |
+      Line-item fact table for catalog (mail-order) returns in the finance mart. Each row represents a single item returned from a catalog order. Finance uses this table to calculate revenue loss, track tax reversals, and quantify refund outflows by return reason. Joins to dim_reason via reason_key for loss categorization.
+    config:
+      group: finance
+      contract:
+        enforced: true
+    columns:
+      - name: catalog_return_key
+        description: Surrogate primary key generated from item_key and order_number.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: returned_date_key
+        description: Foreign key to dim_date representing the date the return was processed.
+        data_type: number
+      - name: item_key
+        description: Foreign key to dim_item representing the product returned.
+        data_type: number
+        data_tests:
+          - not_null
+      - name: refunded_customer_key
+        description: Foreign key to dim_customer representing the customer who received the refund.
+        data_type: number
+      - name: returning_customer_key
+        description: Foreign key to dim_customer representing the customer who initiated the return.
+        data_type: number
+      - name: call_center_key
+        description: Foreign key to dim_call_center for the call center that processed the return.
+        data_type: number
+      - name: catalog_page_key
+        description: Foreign key to the catalog page dimension.
+        data_type: number
+      - name: ship_mode_key
+        description: Foreign key to the shipping mode dimension.
+        data_type: number
+      - name: warehouse_key
+        description: Foreign key to the warehouse dimension.
+        data_type: number
+      - name: reason_key
+        description: Foreign key to dim_reason describing why the item was returned.
+        data_type: number
+      - name: order_number
+        description: Original order number. Part of the composite natural key.
+        data_type: number
+        data_tests:
+          - not_null
+      - name: return_quantity
+        description: Number of units returned in this line item.
+        data_type: number
+      - name: return_amount
+        description: Total return amount before tax — the gross revenue reversed.
+        data_type: number
+      - name: return_tax
+        description: Tax amount reversed on the return.
+        data_type: number
+      - name: return_amount_including_tax
+        description: Total return amount including reversed tax.
+        data_type: number
+      - name: fee
+        description: Fee charged on the return transaction.
+        data_type: number
+      - name: return_ship_cost
+        description: Shipping cost associated with the return.
+        data_type: number
+      - name: refunded_cash
+        description: Cash amount refunded to the customer.
+        data_type: number
+      - name: reversed_charge
+        description: Charge amount reversed on the customer's account.
+        data_type: number
+      - name: store_credit
+        description: Store credit issued to the customer instead of cash refund.
+        data_type: number
+      - name: net_loss
+        description: Net financial loss to the business from this return transaction.
+        data_type: number

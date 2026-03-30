@@ -1,0 +1,19 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_household_demographics
+    description: staging layer for household demographics data from the TPC-DS dataset
+    columns:
+      - name: household_demographics_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: income_band_key
+        description: foreign key to stg_tpcds_income_band
+      - name: buy_potential
+        description: categorical indicator of the household's buying potential (e.g. low, medium, high)
+      - name: dependent_count
+        description: number of dependents in the household
+      - name: vehicle_count
+        description: number of vehicles owned by the household

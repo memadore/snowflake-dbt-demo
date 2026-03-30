@@ -1,0 +1,143 @@
+---
+version: 2
+models:
+  - name: fct_sls__sale
+    description: |
+      Unified omnichannel sales fact table providing a single source of truth for total company sales across all three retail channels: store (brick-and-mortar), web (e-commerce), and catalog (mail-order). Each row is a line-item transaction with a sales_channel discriminator. Channel-specific dimension keys (store_key, web_site_key, web_page_key, call_center_key, catalog_page_key) are null when not applicable to the channel. The bill-to customer is mapped to the conformed customer_key; ship-to fields are populated only for web and catalog channels.
+    config:
+      group: sales
+      contract:
+        enforced: true
+    columns:
+      - name: sale_key
+        description: |
+          Surrogate primary key for the unified sale, inherited from the channel-specific fact table (store_sale_key, web_sale_key, or catalog_sale_key). Unique across all channels.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: sales_channel
+        description: |
+          Discriminator identifying the retail channel: 'store' for brick-and-mortar, 'web' for e-commerce, 'catalog' for mail-order.
+        data_type: varchar
+        data_tests:
+          - not_null
+          - accepted_values:
+              values: ['store', 'web', 'catalog']
+      - name: sold_date_key
+        description: Foreign key to dim_date representing the date the sale occurred.
+        data_type: number
+      - name: sold_time_key
+        description: Foreign key to dim_time representing the time the sale occurred.
+        data_type: number
+      - name: ship_date_key
+        description: Foreign key to dim_date representing the date the item was shipped. Null for store channel.
+        data_type: number
+      - name: item_key
+        description: Foreign key to dim_item representing the product sold.
+        data_type: number
+        data_tests:
+          - not_null
+      - name: customer_key
+        description: |
+          Foreign key to dim_customer representing the buyer. For web and catalog channels, this maps to the billing customer. Null for anonymous store transactions.
+        data_type: number
+      - name: customer_demographics_key
+        description: Foreign key to the customer demographics dimension for the buyer.
+        data_type: number
+      - name: household_demographics_key
+        description: Foreign key to the household demographics dimension for the buyer.
+        data_type: number
+      - name: address_key
+        description: Foreign key to dim_customer_address for the buyer's address. For web and catalog channels, this is the billing address.
+        data_type: number
+      - name: ship_customer_key
+        description: Foreign key to dim_customer for the shipping recipient. Null for store channel.
+        data_type: number
+      - name: ship_customer_demographics_key
+        description: Foreign key to the customer demographics dimension for the shipping recipient. Null for store channel.
+        data_type: number
+      - name: ship_household_demographics_key
+        description: Foreign key to the household demographics dimension for the shipping recipient. Null for store channel.
+        data_type: number
+      - name: ship_address_key
+        description: Foreign key to dim_customer_address for the shipping address. Null for store channel.
+        data_type: number
+      - name: store_key
+        description: Foreign key to dim_store. Populated only for store channel.
+        data_type: number
+      - name: web_page_key
+        description: Foreign key to dim_web_page. Populated only for web channel.
+        data_type: number
+      - name: web_site_key
+        description: Foreign key to dim_web_site. Populated only for web channel.
+        data_type: number
+      - name: call_center_key
+        description: Foreign key to dim_call_center. Populated only for catalog channel.
+        data_type: number
+      - name: catalog_page_key
+        description: Foreign key to dim_catalog_page. Populated only for catalog channel.
+        data_type: number
+      - name: ship_mode_key
+        description: Foreign key to the shipping mode dimension. Null for store channel.
+        data_type: number
+      - name: warehouse_key
+        description: Foreign key to the warehouse dimension. Null for store channel.
+        data_type: number
+      - name: promotion_key
+        description: Foreign key to the promotion dimension.
+        data_type: number
+      - name: order_number
+        description: |
+          Order or ticket number for the transaction. For store channel this is the ticket_number; for web and catalog channels this is the order_number.
+        data_type: number
+        data_tests:
+          - not_null
+      - name: quantity
+        description: Number of units sold in this line item.
+        data_type: number
+      - name: wholesale_cost
+        description: Per-unit wholesale cost of the item.
+        data_type: number
+      - name: list_price
+        description: Per-unit list price of the item.
+        data_type: number
+      - name: sales_price
+        description: Per-unit actual selling price after discounts.
+        data_type: number
+      - name: extended_discount_amount
+        description: Total discount amount applied (quantity times discount per unit).
+        data_type: number
+      - name: extended_sales_price
+        description: Total sales revenue (quantity times sales_price).
+        data_type: number
+      - name: extended_wholesale_cost
+        description: Total wholesale cost (quantity times wholesale_cost).
+        data_type: number
+      - name: extended_list_price
+        description: Total list price (quantity times list_price).
+        data_type: number
+      - name: extended_tax
+        description: Total tax amount applied to the line item.
+        data_type: number
+      - name: coupon_amount
+        description: Coupon discount amount applied to the line item.
+        data_type: number
+      - name: extended_ship_cost
+        description: Total shipping cost for the line item. Null for store channel.
+        data_type: number
+      - name: net_paid
+        description: Net amount paid by the customer before tax and shipping.
+        data_type: number
+      - name: net_paid_including_tax
+        description: Net amount paid by the customer including tax but excluding shipping.
+        data_type: number
+      - name: net_paid_including_ship
+        description: Net amount paid by the customer including shipping but excluding tax. Null for store channel.
+        data_type: number
+      - name: net_paid_including_ship_and_tax
+        description: Net amount paid by the customer including both shipping and tax. Null for store channel.
+        data_type: number
+      - name: net_profit
+        description: Net profit from the line item (net_paid minus wholesale cost).
+        data_type: number

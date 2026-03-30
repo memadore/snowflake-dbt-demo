@@ -1,0 +1,73 @@
+---
+version: 2
+models:
+  - name: dim_mkt__promotion
+    description: |
+      Promotion dimension for the marketing mart, representing advertising campaigns, product promotions, and PR events. Each row is a distinct promotion with its cost, channel distribution flags, and active date window. Use this to calculate promotion ROI by joining to fct_promotion_sales on promotion_key.
+    config:
+      group: marketing
+      contract:
+        enforced: true
+    columns:
+      - name: promotion_key
+        description: Surrogate key for the promotion dimension, used as the join key from fact tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: promotion_id
+        description: Business identifier for the promotion, stable across SCD versions.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: promotion_name
+        description: Descriptive name of the promotion.
+        data_type: varchar
+      - name: start_date_key
+        description: Foreign key to dim_date representing the promotion start date.
+        data_type: number
+      - name: end_date_key
+        description: Foreign key to dim_date representing the promotion end date.
+        data_type: number
+      - name: item_key
+        description: Foreign key to dim_item for the item associated with this promotion.
+        data_type: number
+      - name: cost
+        description: Total cost to run the promotion, used as the denominator in ROI calculations.
+        data_type: number
+      - name: response_target
+        description: Target response rate for the promotion.
+        data_type: number
+      - name: channel_direct_mail
+        description: Flag indicating whether the promotion ran via direct mail channel (Y/N).
+        data_type: varchar
+      - name: channel_email
+        description: Flag indicating whether the promotion ran via email channel (Y/N).
+        data_type: varchar
+      - name: channel_catalog
+        description: Flag indicating whether the promotion ran via catalog channel (Y/N).
+        data_type: varchar
+      - name: channel_tv
+        description: Flag indicating whether the promotion ran via television channel (Y/N).
+        data_type: varchar
+      - name: channel_radio
+        description: Flag indicating whether the promotion ran via radio channel (Y/N).
+        data_type: varchar
+      - name: channel_press
+        description: Flag indicating whether the promotion ran via press/print channel (Y/N).
+        data_type: varchar
+      - name: channel_event
+        description: Flag indicating whether the promotion ran via events channel (Y/N).
+        data_type: varchar
+      - name: channel_demo
+        description: Flag indicating whether the promotion ran via in-store demonstration channel (Y/N).
+        data_type: varchar
+      - name: channel_details
+        description: Free-text details about the promotion channels used.
+        data_type: varchar
+      - name: purpose
+        description: Business purpose or goal of the promotion.
+        data_type: varchar
+      - name: is_discount_active
+        description: Flag indicating whether the discount associated with this promotion is currently active (Y/N).
+        data_type: varchar

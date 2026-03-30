@@ -1,0 +1,26 @@
+---
+version: 2
+models:
+  - name: dim_fin__reason
+    description: |
+      Return reason dimension local to the finance mart. Captures the textual rationale for why an item was returned, enabling finance to quantify losses by category — defect, wrong size, shipping damage, unauthorized purchase, and other return drivers. Joins to the returns fact tables via reason_key.
+    config:
+      group: finance
+      contract:
+        enforced: true
+    columns:
+      - name: reason_key
+        description: Surrogate primary key for the return reason, used as the join key from returns fact tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: reason_id
+        description: Business identifier for the reason. Stable across SCD versions.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: reason_description
+        description: |
+          Human-readable description of the return reason (e.g., "Package was damaged", "Wrong size", "Did not like the color"). Used by finance to categorize and aggregate return losses by root cause.
+        data_type: varchar

@@ -1,0 +1,142 @@
+---
+version: 2
+models:
+  - name: fct_sls__web_sale
+    description: |
+      Line-item transactional fact table for the e-commerce web channel. Each row represents a single item sold through the web, identified by the combination of item and order number. Contains bill-to and ship-to customer splits, shipping costs, and full monetary measures at the line-item grain.
+    config:
+      group: sales
+      contract:
+        enforced: true
+    columns:
+      - name: web_sale_key
+        description: Surrogate primary key generated from item_key and order_number.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: sold_date_key
+        description: Foreign key to dim_date representing the date the sale occurred.
+        data_type: number
+        data_tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: sold_time_key
+        description: Foreign key to dim_time representing the time the sale occurred.
+        data_type: number
+        data_tests:
+          - relationships:
+              to: ref('dim_time')
+              field: time_key
+      - name: ship_date_key
+        description: Foreign key to dim_date representing the date the item was shipped.
+        data_type: number
+      - name: item_key
+        description: Foreign key to dim_item representing the product sold.
+        data_type: number
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_item')
+              field: item_key
+      - name: bill_customer_key
+        description: Foreign key to dim_customer representing the billing customer.
+        data_type: number
+      - name: bill_customer_demographics_key
+        description: Foreign key to the customer demographics dimension for the billing customer.
+        data_type: number
+      - name: bill_household_demographics_key
+        description: Foreign key to the household demographics dimension for the billing customer.
+        data_type: number
+      - name: bill_address_key
+        description: Foreign key to dim_customer_address representing the billing address.
+        data_type: number
+      - name: ship_customer_key
+        description: Foreign key to dim_customer representing the shipping recipient.
+        data_type: number
+      - name: ship_customer_demographics_key
+        description: Foreign key to the customer demographics dimension for the shipping recipient.
+        data_type: number
+      - name: ship_household_demographics_key
+        description: Foreign key to the household demographics dimension for the shipping recipient.
+        data_type: number
+      - name: ship_address_key
+        description: Foreign key to dim_customer_address representing the shipping address.
+        data_type: number
+      - name: web_page_key
+        description: Foreign key to dim_web_page representing the landing page for the sale.
+        data_type: number
+        data_tests:
+          - relationships:
+              to: ref('dim_web_page')
+              field: web_page_key
+      - name: web_site_key
+        description: Foreign key to dim_web_site representing the web property where the sale occurred.
+        data_type: number
+        data_tests:
+          - relationships:
+              to: ref('dim_web_site')
+              field: web_site_key
+      - name: ship_mode_key
+        description: Foreign key to the shipping mode dimension.
+        data_type: number
+      - name: warehouse_key
+        description: Foreign key to the warehouse dimension.
+        data_type: number
+      - name: promotion_key
+        description: Foreign key to the promotion dimension.
+        data_type: number
+      - name: order_number
+        description: Order number for the transaction. Multiple line items share the same order number.
+        data_type: number
+        data_tests:
+          - not_null
+      - name: quantity
+        description: Number of units sold in this line item.
+        data_type: number
+      - name: wholesale_cost
+        description: Per-unit wholesale cost of the item.
+        data_type: number
+      - name: list_price
+        description: Per-unit list price of the item.
+        data_type: number
+      - name: sales_price
+        description: Per-unit actual selling price after discounts.
+        data_type: number
+      - name: extended_discount_amount
+        description: Total discount amount applied (quantity times discount per unit).
+        data_type: number
+      - name: extended_sales_price
+        description: Total sales revenue (quantity times sales_price).
+        data_type: number
+      - name: extended_wholesale_cost
+        description: Total wholesale cost (quantity times wholesale_cost).
+        data_type: number
+      - name: extended_list_price
+        description: Total list price (quantity times list_price).
+        data_type: number
+      - name: extended_tax
+        description: Total tax amount applied to the line item.
+        data_type: number
+      - name: coupon_amount
+        description: Coupon discount amount applied to the line item.
+        data_type: number
+      - name: extended_ship_cost
+        description: Total shipping cost for the line item.
+        data_type: number
+      - name: net_paid
+        description: Net amount paid by the customer before tax and shipping.
+        data_type: number
+      - name: net_paid_including_tax
+        description: Net amount paid by the customer including tax but excluding shipping.
+        data_type: number
+      - name: net_paid_including_ship
+        description: Net amount paid by the customer including shipping but excluding tax.
+        data_type: number
+      - name: net_paid_including_ship_tax
+        description: Net amount paid by the customer including both shipping and tax.
+        data_type: number
+      - name: net_profit
+        description: Net profit from the line item (net_paid minus wholesale cost).
+        data_type: number

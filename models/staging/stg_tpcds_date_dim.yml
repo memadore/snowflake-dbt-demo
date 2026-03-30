@@ -1,0 +1,65 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_date_dim
+    description: staging layer for date dimension data from the TPC-DS dataset
+    columns:
+      - name: date_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: date_id
+        description: business identifier for the date
+      - name: date
+        description: the calendar date
+      - name: month_sequence
+        description: unique sequential identifier for the month across all years
+      - name: week_sequence
+        description: unique sequential identifier for the week across all years
+      - name: quarter_sequence
+        description: unique sequential identifier for the quarter across all years
+      - name: year
+        description: calendar year of the date
+      - name: day_of_week
+        description: day of the week (0=Sunday through 6=Saturday)
+      - name: month_of_year
+        description: month number within the calendar year (1-12)
+      - name: day_of_month
+        description: day number within the calendar month (1-31)
+      - name: quarter_of_year
+        description: quarter number within the calendar year (1-4)
+      - name: fiscal_year
+        description: fiscal year the date belongs to
+      - name: fiscal_quarter_sequence
+        description: unique sequential identifier for the fiscal quarter across all years
+      - name: fiscal_week_sequence
+        description: unique sequential identifier for the fiscal week across all years
+      - name: day_name
+        description: full name of the day of the week (e.g., Monday, Tuesday)
+      - name: quarter_name
+        description: name of the quarter including the year (e.g., 1998Q1)
+      - name: is_holiday
+        description: flag indicating whether the date is a public holiday
+      - name: is_weekend
+        description: flag indicating whether the date falls on a weekend
+      - name: is_following_holiday
+        description: flag indicating whether the date immediately follows a public holiday
+      - name: first_day_of_month
+        description: date key of the first day of the same calendar month
+      - name: last_day_of_month
+        description: date key of the last day of the same calendar month
+      - name: same_day_last_year
+        description: date key of the same day in the previous calendar year
+      - name: same_day_last_quarter
+        description: date key of the same day in the previous calendar quarter
+      - name: is_current_day
+        description: flag indicating whether this date is today
+      - name: is_current_week
+        description: flag indicating whether this date falls in the current week
+      - name: is_current_month
+        description: flag indicating whether this date falls in the current month
+      - name: is_current_quarter
+        description: flag indicating whether this date falls in the current quarter
+      - name: is_current_year
+        description: flag indicating whether this date falls in the current year

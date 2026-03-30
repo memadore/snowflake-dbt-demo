@@ -1,0 +1,53 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_item
+    description: staging layer for item data from the TPC-DS dataset
+    columns:
+      - name: item_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: item_id
+        description: business identifier for the item, used to track items across slowly changing dimension versions
+      - name: record_start_date
+        description: date when this version of the item record became effective
+      - name: record_end_date
+        description: date when this version of the item record expired; null if currently active
+      - name: item_description
+        description: full text description of the item
+      - name: current_price
+        description: current retail price of the item
+      - name: wholesale_cost
+        description: cost to purchase the item at wholesale
+      - name: brand_id
+        description: identifier for the brand the item belongs to
+      - name: brand
+        description: name of the brand
+      - name: class_id
+        description: identifier for the product class the item belongs to
+      - name: class
+        description: name of the product class
+      - name: category_id
+        description: identifier for the product category the item belongs to
+      - name: category
+        description: name of the product category
+      - name: manufacturer_id
+        description: identifier for the manufacturer of the item
+      - name: manufacturer
+        description: name of the manufacturer
+      - name: size
+        description: size designation of the item (e.g. small, medium, large)
+      - name: formulation
+        description: formulation or composition details for the item
+      - name: color
+        description: color of the item
+      - name: units
+        description: unit of measure for the item (e.g. each, box, dozen)
+      - name: container
+        description: container or packaging type for the item
+      - name: manager_id
+        description: identifier for the manager responsible for this item
+      - name: product_name
+        description: name of the product

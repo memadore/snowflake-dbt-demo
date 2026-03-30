@@ -1,0 +1,57 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_store_sales
+    description: staging layer for store sales data from the TPC-DS dataset
+    columns:
+      - name: store_sale_key
+        description: surrogate primary key generated from item_key and ticket_number
+        data_tests:
+          - unique
+          - not_null
+      - name: sold_date_key
+        description: foreign key to the date dimension representing the date the sale occurred
+      - name: sold_time_key
+        description: foreign key to the time dimension representing the time the sale occurred
+      - name: item_key
+        description: foreign key to the item dimension
+      - name: customer_key
+        description: foreign key to the customer dimension
+      - name: customer_demographics_key
+        description: foreign key to the customer demographics dimension
+      - name: household_demographics_key
+        description: foreign key to the household demographics dimension
+      - name: address_key
+        description: foreign key to the customer address dimension
+      - name: store_key
+        description: foreign key to the store dimension
+      - name: promotion_key
+        description: foreign key to the promotion dimension
+      - name: ticket_number
+        description: the transaction ticket number, part of the composite natural key
+      - name: quantity
+        description: number of units sold in this line item
+      - name: wholesale_cost
+        description: wholesale cost of the item
+      - name: list_price
+        description: list price of the item
+      - name: sales_price
+        description: actual sales price of the item after discounts
+      - name: extended_discount_amount
+        description: total discount amount applied (quantity * discount per unit)
+      - name: extended_sales_price
+        description: total sales price (quantity * sales_price)
+      - name: extended_wholesale_cost
+        description: total wholesale cost (quantity * wholesale_cost)
+      - name: extended_list_price
+        description: total list price (quantity * list_price)
+      - name: extended_tax
+        description: total tax amount applied to the sale
+      - name: coupon_amount
+        description: coupon discount amount applied to the sale
+      - name: net_paid
+        description: net amount paid by the customer before tax
+      - name: net_paid_including_tax
+        description: net amount paid by the customer including tax
+      - name: net_profit
+        description: net profit from the sale (net_paid minus wholesale cost)

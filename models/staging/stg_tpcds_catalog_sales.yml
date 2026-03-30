@@ -1,0 +1,79 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_catalog_sales
+    description: staging layer for catalog sales data from the TPC-DS dataset
+    columns:
+      - name: catalog_sale_key
+        description: surrogate primary key generated from item_key and order_number
+        data_tests:
+          - unique
+          - not_null
+      - name: sold_date_key
+        description: foreign key to the date dimension representing the date the sale occurred
+      - name: sold_time_key
+        description: foreign key to the time dimension representing the time the sale occurred
+      - name: ship_date_key
+        description: foreign key to the date dimension representing the scheduled ship date
+      - name: bill_customer_key
+        description: foreign key to the customer dimension for the billing customer
+      - name: bill_customer_demographics_key
+        description: foreign key to the customer demographics dimension for the billing customer
+      - name: bill_household_demographics_key
+        description: foreign key to the household demographics dimension for the billing address
+      - name: bill_address_key
+        description: foreign key to the customer address dimension for the billing address
+      - name: ship_customer_key
+        description: foreign key to the customer dimension for the shipping recipient
+      - name: ship_customer_demographics_key
+        description: foreign key to the customer demographics dimension for the shipping customer
+      - name: ship_household_demographics_key
+        description: foreign key to the household demographics dimension for the shipping address
+      - name: ship_address_key
+        description: foreign key to the customer address dimension for the shipping address
+      - name: call_center_key
+        description: foreign key to the call center dimension where the order was placed
+      - name: catalog_page_key
+        description: foreign key to the catalog page dimension from which the item was ordered
+      - name: ship_mode_key
+        description: foreign key to the ship mode dimension
+      - name: warehouse_key
+        description: foreign key to the warehouse dimension from which the item ships
+      - name: item_key
+        description: foreign key to the item dimension
+      - name: promotion_key
+        description: foreign key to the promotion dimension
+      - name: order_number
+        description: the catalog order number, part of the composite natural key
+      - name: quantity
+        description: number of units sold in this line item
+      - name: wholesale_cost
+        description: wholesale cost of the item
+      - name: list_price
+        description: list price of the item
+      - name: sales_price
+        description: actual sales price of the item after discounts
+      - name: extended_discount_amount
+        description: total discount amount applied (quantity * discount per unit)
+      - name: extended_sales_price
+        description: total sales price (quantity * sales_price)
+      - name: extended_wholesale_cost
+        description: total wholesale cost (quantity * wholesale_cost)
+      - name: extended_list_price
+        description: total list price (quantity * list_price)
+      - name: extended_tax
+        description: total tax amount applied to the sale
+      - name: coupon_amount
+        description: coupon discount amount applied to the sale
+      - name: extended_ship_cost
+        description: total shipping cost for the order line
+      - name: net_paid
+        description: net amount paid by the customer before tax and shipping
+      - name: net_paid_including_tax
+        description: net amount paid by the customer including tax but excluding shipping
+      - name: net_paid_including_ship
+        description: net amount paid by the customer including shipping but excluding tax
+      - name: net_paid_including_ship_and_tax
+        description: net amount paid by the customer including both shipping and tax
+      - name: net_profit
+        description: net profit from the sale (net_paid minus wholesale cost)

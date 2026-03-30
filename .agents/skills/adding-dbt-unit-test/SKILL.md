@@ -157,7 +157,7 @@ Use the `--resource-type` flag `--exclude-resource-type` or the `DBT_EXCLUDE_RES
 unit_tests:
 
   - name: test_order_items_count_drink_items_with_zero_drinks
-    description: >
+    description: |
       Scenario: Order without any drinks
         When the `order_items_summary` table is built
         Given an order with nothing but 1 food item

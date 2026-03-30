@@ -1,0 +1,27 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_customer_demographics
+    description: staging layer for customer demographics dimension data from the TPC-DS dataset
+    columns:
+      - name: customer_demographics_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: gender
+        description: gender of the customer demographic segment
+      - name: marital_status
+        description: marital status of the customer demographic segment (e.g., single, married, divorced)
+      - name: education_status
+        description: education level of the customer demographic segment (e.g., college, high school)
+      - name: purchase_estimate
+        description: estimated annual purchase amount for the customer demographic segment
+      - name: credit_rating
+        description: credit rating classification of the customer demographic segment
+      - name: dependent_count
+        description: number of dependents in the customer demographic segment
+      - name: dependent_employed_count
+        description: number of employed dependents in the customer demographic segment
+      - name: dependent_college_count
+        description: number of dependents attending college in the customer demographic segment

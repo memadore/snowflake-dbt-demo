@@ -1,0 +1,106 @@
+---
+version: 2
+models:
+  - name: fct_sls__store_sale
+    description: |
+      Line-item transactional fact table for the brick-and-mortar retail channel. Each row represents a single item sold in a store transaction, identified by the combination of item and ticket number. Contains monetary measures at the line-item grain including pricing, discounts, taxes, and profit.
+    config:
+      group: sales
+      contract:
+        enforced: true
+    columns:
+      - name: store_sale_key
+        description: Surrogate primary key generated from item_key and ticket_number.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: sold_date_key
+        description: Foreign key to dim_date representing the date the sale occurred.
+        data_type: number
+        data_tests:
+          - relationships:
+              to: ref('dim_date')
+              field: date_key
+      - name: sold_time_key
+        description: Foreign key to dim_time representing the time the sale occurred.
+        data_type: number
+        data_tests:
+          - relationships:
+              to: ref('dim_time')
+              field: time_key
+      - name: item_key
+        description: Foreign key to dim_item representing the product sold.
+        data_type: number
+        data_tests:
+          - not_null
+          - relationships:
+              to: ref('dim_item')
+              field: item_key
+      - name: customer_key
+        description: Foreign key to dim_customer representing the buyer. Null for anonymous transactions.
+        data_type: number
+      - name: customer_demographics_key
+        description: Foreign key to the customer demographics dimension.
+        data_type: number
+      - name: household_demographics_key
+        description: Foreign key to the household demographics dimension.
+        data_type: number
+      - name: address_key
+        description: Foreign key to dim_customer_address representing the customer's address at time of sale.
+        data_type: number
+      - name: store_key
+        description: Foreign key to dim_store representing the physical store where the sale occurred.
+        data_type: number
+        data_tests:
+          # - not_null
+          - relationships:
+              to: ref('dim_store')
+              field: store_key
+      - name: promotion_key
+        description: Foreign key to the promotion dimension.
+        data_type: number
+      - name: ticket_number
+        description: Transaction ticket number. Multiple line items share the same ticket number within a transaction.
+        data_type: number
+        data_tests:
+          - not_null
+      - name: quantity
+        description: Number of units sold in this line item.
+        data_type: number
+      - name: wholesale_cost
+        description: Per-unit wholesale cost of the item.
+        data_type: number
+      - name: list_price
+        description: Per-unit list price of the item.
+        data_type: number
+      - name: sales_price
+        description: Per-unit actual selling price after discounts.
+        data_type: number
+      - name: extended_discount_amount
+        description: Total discount amount applied (quantity times discount per unit).
+        data_type: number
+      - name: extended_sales_price
+        description: Total sales revenue (quantity times sales_price).
+        data_type: number
+      - name: extended_wholesale_cost
+        description: Total wholesale cost (quantity times wholesale_cost).
+        data_type: number
+      - name: extended_list_price
+        description: Total list price (quantity times list_price).
+        data_type: number
+      - name: extended_tax
+        description: Total tax amount applied to the line item.
+        data_type: number
+      - name: coupon_amount
+        description: Coupon discount amount applied to the line item.
+        data_type: number
+      - name: net_paid
+        description: Net amount paid by the customer before tax.
+        data_type: number
+      - name: net_paid_including_tax
+        description: Net amount paid by the customer including tax.
+        data_type: number
+      - name: net_profit
+        description: Net profit from the line item (net_paid minus wholesale cost).
+        data_type: number

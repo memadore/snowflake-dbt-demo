@@ -1,0 +1,74 @@
+---
+version: 2
+models:
+  - name: dim_customer
+    description: |
+      Master customer identity dimension containing unique buyer IDs, names, contact information, and demographic/address foreign keys. All business units should use this as the single source of truth for customer-level analysis.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: customer_key
+        description: Surrogate key for the customer dimension, used as the join key from fact tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: customer_id
+        description: Business identifier for the customer.
+        data_type: varchar
+        data_tests:
+          - unique
+          - not_null
+      - name: salutation
+        description: Salutation or title used to address the customer (e.g., Mr., Ms., Dr.).
+        data_type: varchar
+      - name: first_name
+        description: Customer's first name.
+        data_type: varchar
+      - name: last_name
+        description: Customer's last name.
+        data_type: varchar
+      - name: is_preferred_customer
+        description: Boolean flag indicating whether the customer has preferred status.
+        data_type: boolean
+      - name: birth_day
+        description: Day of the month the customer was born.
+        data_type: number
+      - name: birth_month
+        description: Month the customer was born (1-12).
+        data_type: number
+      - name: birth_year
+        description: Year the customer was born.
+        data_type: number
+      - name: birth_country
+        description: Country where the customer was born.
+        data_type: varchar
+      - name: login
+        description: Customer's login username. Often null in this dataset.
+        data_type: varchar
+      - name: email_address
+        description: Customer's email address.
+        data_type: varchar
+      - name: last_review_date
+        description: Date of the customer's last review or interaction.
+        data_type: varchar
+      - name: current_address_key
+        description: Foreign key to dim_customer_address representing the customer's current address.
+        data_type: number
+        data_tests:
+          - relationships:
+              to: ref('dim_customer_address')
+              field: address_key
+      - name: current_customer_demographics_key
+        description: Foreign key to the customer demographics dimension.
+        data_type: number
+      - name: current_household_demographics_key
+        description: Foreign key to the household demographics dimension.
+        data_type: number
+      - name: first_shipto_date_key
+        description: Foreign key to dim_date representing the date of the customer's first shipment.
+        data_type: number
+      - name: first_sales_date_key
+        description: Foreign key to dim_date representing the date of the customer's first sale.
+        data_type: number

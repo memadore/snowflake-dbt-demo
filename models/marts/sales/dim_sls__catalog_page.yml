@@ -1,0 +1,43 @@
+---
+version: 2
+models:
+  - name: dim_sls__catalog_page
+    description: |
+      Catalog page dimension for the sales mart. Contains metadata about pages within printed product catalogs, including page numbering, department assignment, and catalog edition details. Used to attribute catalog sales to specific printed media surfaces.
+    config:
+      group: sales
+      contract:
+        enforced: true
+    columns:
+      - name: catalog_page_key
+        description: Surrogate key for the catalog page dimension, used as the join key from catalog sales fact tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: catalog_page_id
+        description: Business identifier for the catalog page.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: department
+        description: Department the catalog page belongs to.
+        data_type: varchar
+      - name: catalog_number
+        description: Edition number of the catalog containing this page.
+        data_type: number
+      - name: catalog_page_number
+        description: Page number within the catalog.
+        data_type: number
+      - name: description
+        description: Text description of the catalog page content.
+        data_type: varchar
+      - name: type
+        description: Type of catalog (e.g., bi-annual, quarterly).
+        data_type: varchar
+      - name: start_date_key
+        description: Foreign key to dim_date representing the date the catalog became active.
+        data_type: number
+      - name: end_date_key
+        description: Foreign key to dim_date representing the date the catalog expired.
+        data_type: number

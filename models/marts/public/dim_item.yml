@@ -1,0 +1,85 @@
+---
+version: 2
+models:
+  - name: dim_item
+    description: |
+      Conformed product catalog dimension. Tracks formulations, sizes, brands, and categories as a slowly changing dimension (Type 2). Each row represents a version of an item; use is_current_record to filter to the latest version or join on item_key for point-in-time fact accuracy.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: item_key
+        description: Surrogate key for the item dimension, used as the join key from fact tables. Unique per SCD version.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: item_id
+        description: |
+          Business identifier for the item. Shared across SCD versions — multiple rows may share the same item_id with different validity periods.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: product_name
+        description: Name of the product.
+        data_type: varchar
+      - name: item_description
+        description: Full text description of the item.
+        data_type: varchar
+      - name: brand_id
+        description: Identifier for the brand the item belongs to.
+        data_type: number
+      - name: brand
+        description: Name of the brand.
+        data_type: varchar
+      - name: class_id
+        description: Identifier for the product class.
+        data_type: number
+      - name: class
+        description: Name of the product class.
+        data_type: varchar
+      - name: category_id
+        description: Identifier for the product category.
+        data_type: number
+      - name: category
+        description: Name of the product category (e.g., Sports, Music, Men).
+        data_type: varchar
+      - name: manufacturer_id
+        description: Identifier for the manufacturer.
+        data_type: number
+      - name: manufacturer
+        description: Name of the manufacturer.
+        data_type: varchar
+      - name: size
+        description: Size designation of the item (e.g., small, medium, large, N/A).
+        data_type: varchar
+      - name: formulation
+        description: Formulation or composition details for the item, used to track product changes across SCD versions.
+        data_type: varchar
+      - name: color
+        description: Color of the item.
+        data_type: varchar
+      - name: units
+        description: Unit of measure for the item (e.g., Each, Box, Dozen).
+        data_type: varchar
+      - name: container
+        description: Container or packaging type for the item.
+        data_type: varchar
+      - name: current_price
+        description: Current retail price of the item.
+        data_type: number
+      - name: wholesale_cost
+        description: Cost to purchase the item at wholesale.
+        data_type: number
+      - name: manager_id
+        description: Identifier for the manager responsible for this item.
+        data_type: number
+      - name: record_start_date
+        description: Date when this version of the item record became effective.
+        data_type: date
+      - name: record_end_date
+        description: Date when this version of the item record expired. Null if this is the currently active version.
+        data_type: date
+      - name: is_current_record
+        description: Boolean flag indicating whether this is the currently active version of the item.
+        data_type: boolean

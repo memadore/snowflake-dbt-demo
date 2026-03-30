@@ -1,0 +1,41 @@
+---
+version: 2
+models:
+  - name: dim_mkt__customer_demographics
+    description: |
+      Customer demographics dimension for the marketing mart. Provides profile attributes such as gender, marital status, education level, credit rating, and dependent counts. Used for building target demographic cohorts and segmenting promotion effectiveness by customer profile.
+    config:
+      group: marketing
+      contract:
+        enforced: true
+    columns:
+      - name: customer_demographics_key
+        description: Surrogate key for the customer demographics dimension, used as the join key from fact and customer tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: gender
+        description: Gender of the customer demographic segment (M/F).
+        data_type: varchar
+      - name: marital_status
+        description: Marital status of the customer demographic segment (M = married, S = single, D = divorced, W = widowed, U = unknown).
+        data_type: varchar
+      - name: education_status
+        description: Education level of the customer demographic segment (e.g., Primary, Secondary, College, Advanced Degree).
+        data_type: varchar
+      - name: purchase_estimate
+        description: Estimated annual purchase amount for the customer demographic segment.
+        data_type: number
+      - name: credit_rating
+        description: Credit rating classification of the customer demographic segment (e.g., Good, Low Risk, High Risk).
+        data_type: varchar
+      - name: dependent_count
+        description: Number of dependents in the customer demographic segment.
+        data_type: number
+      - name: dependent_employed_count
+        description: Number of employed dependents in the customer demographic segment.
+        data_type: number
+      - name: dependent_college_count
+        description: Number of dependents attending college in the customer demographic segment.
+        data_type: number

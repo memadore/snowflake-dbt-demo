@@ -1,0 +1,34 @@
+---
+version: 2
+models:
+  - name: dim_ops__ship_mode
+    description: |
+      Ship mode dimension for the operations mart. Categorizes the freight and carrier mechanisms used to fulfill web and catalog orders. Used to analyze shipping performance, carrier utilization, and fulfillment method preferences.
+    config:
+      group: operations
+      contract:
+        enforced: true
+    columns:
+      - name: ship_mode_key
+        description: Surrogate key for the ship mode dimension, used as the join key from catalog and web return fact tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: ship_mode_id
+        description: Business identifier for the ship mode.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: type
+        description: Type of shipment service level (e.g., EXPRESS, NEXT DAY, OVERNIGHT, REGULAR, TWO DAY).
+        data_type: varchar
+      - name: code
+        description: Short code representing the shipping method (e.g., AIR, SURFACE).
+        data_type: varchar
+      - name: carrier
+        description: Name of the carrier providing the shipping service (e.g., UPS, FEDEX, AIRBORNE).
+        data_type: varchar
+      - name: contract
+        description: Contract identifier associated with the shipping arrangement.
+        data_type: varchar

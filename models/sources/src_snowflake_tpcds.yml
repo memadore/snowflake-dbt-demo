@@ -1,0 +1,56 @@
+---
+version: 2
+sources:
+  - name: tpcds
+    database: demo_tpcds
+    schema: public
+    description: Snowflake's shared 10TB scale TPC-DS sample dataset
+    tables:
+      - name: store_sales
+        description: Fact table for physical store purchases
+      - name: store_returns
+        description: Fact table for physical store returns
+      - name: catalog_sales
+        description: Fact table for mail-order catalog purchases
+      - name: catalog_returns
+        description: Fact table for mail-order catalog returns
+      - name: web_sales
+        description: Fact table for digital/e-commerce purchases
+      - name: web_returns
+        description: Fact table for digital/e-commerce returns
+      - name: inventory
+        description: Weekly inventory snapshot fact table
+      - name: call_center
+        description: Dimension for call center ingestion nodes
+      - name: catalog_page
+        description: Dimension for printed catalog pages
+      - name: customer
+        description: Master customer dimension
+      - name: customer_address
+        description: Dimension for customer geographical locations
+      - name: customer_demographics
+        description: Dimension for demographic profiles (gender, marital status, etc.)
+      - name: date_dim
+        description: Conformed dimension for calendar dates
+      - name: household_demographics
+        description: Dimension for household profiles (dependents, vehicle count, etc.)
+      - name: income_band
+        description: Dimension for annual income ranges
+      - name: item
+        description: Slowly changing dimension for product catalog and formulations
+      - name: promotion
+        description: Dimension tracking marketing and advertising campaigns
+      - name: reason
+        description: Dimension categorizing reasons for returned merchandise
+      - name: ship_mode
+        description: Dimension for freight and shipping logistics
+      - name: store
+        description: Dimension for physical retail locations
+      - name: time_dim
+        description: Conformed dimension for intra-day time (seconds/minutes/hours)
+      - name: warehouse
+        description: Dimension for physical staging and stock locations
+      - name: web_page
+        description: Dimension for digital landing pages and URLs
+      - name: web_site
+        description: Dimension for digital domain metadata

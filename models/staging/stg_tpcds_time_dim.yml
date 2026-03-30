@@ -1,0 +1,29 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_time_dim
+    description: staging layer for time dimension data from the TPC-DS dataset
+    columns:
+      - name: time_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: time_id
+        description: business identifier for the time record
+      - name: time_in_seconds
+        description: time of day expressed as total seconds since midnight
+      - name: hour
+        description: hour component of the time (0-23)
+      - name: minute
+        description: minute component of the time (0-59)
+      - name: second
+        description: second component of the time (0-59)
+      - name: am_pm
+        description: AM or PM designation for the time
+      - name: shift
+        description: work shift associated with the time (e.g., first, second, third)
+      - name: sub_shift
+        description: sub-division of the work shift
+      - name: meal_time
+        description: meal period associated with the time (e.g., breakfast, lunch, dinner)

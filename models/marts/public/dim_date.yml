@@ -1,0 +1,101 @@
+---
+version: 2
+models:
+  - name: dim_date
+    description: |
+      Conformed date dimension representing every calendar day. Includes pre-calculated flags for holidays, weekends, fiscal periods, and current-period indicators. All business units should use this table as the single source of truth for date-based filtering and grouping.
+    config:
+      contract:
+        enforced: true
+    columns:
+      - name: date_key
+        description: Surrogate key for the date dimension, used as the join key from fact tables.
+        data_type: number
+        data_tests:
+          - unique
+          - not_null
+      - name: date_id
+        description: Business identifier for the date record.
+        data_type: varchar
+        data_tests:
+          - not_null
+      - name: date
+        description: The calendar date value.
+        data_type: date
+        data_tests:
+          - not_null
+      - name: day_name
+        description: Full name of the day of the week (e.g., Monday, Tuesday).
+        data_type: varchar
+      - name: day_of_week
+        description: Numeric day of the week (0=Sunday through 6=Saturday).
+        data_type: number
+      - name: day_of_month
+        description: Day number within the calendar month (1-31).
+        data_type: number
+      - name: month_of_year
+        description: Month number within the calendar year (1-12).
+        data_type: number
+      - name: quarter_of_year
+        description: Quarter number within the calendar year (1-4).
+        data_type: number
+      - name: year
+        description: Calendar year of the date.
+        data_type: number
+      - name: quarter_name
+        description: Quarter label including the year (e.g., 1998Q1).
+        data_type: varchar
+      - name: month_sequence
+        description: Unique sequential identifier for the month across all years, useful for period-over-period calculations.
+        data_type: number
+      - name: week_sequence
+        description: Unique sequential identifier for the week across all years.
+        data_type: number
+      - name: quarter_sequence
+        description: Unique sequential identifier for the quarter across all years.
+        data_type: number
+      - name: fiscal_year
+        description: Fiscal year the date belongs to.
+        data_type: number
+      - name: fiscal_quarter_sequence
+        description: Unique sequential identifier for the fiscal quarter across all years.
+        data_type: number
+      - name: fiscal_week_sequence
+        description: Unique sequential identifier for the fiscal week across all years.
+        data_type: number
+      - name: first_day_of_month
+        description: Date key of the first day of the same calendar month.
+        data_type: number
+      - name: last_day_of_month
+        description: Date key of the last day of the same calendar month.
+        data_type: number
+      - name: same_day_last_year
+        description: Date key of the same calendar day in the prior year, for year-over-year comparisons.
+        data_type: number
+      - name: same_day_last_quarter
+        description: Date key of the same calendar day in the prior quarter.
+        data_type: number
+      - name: is_holiday
+        description: Boolean flag indicating whether the date is a public holiday.
+        data_type: boolean
+      - name: is_weekend
+        description: Boolean flag indicating whether the date falls on a weekend (Saturday or Sunday).
+        data_type: boolean
+      - name: is_following_holiday
+        description: Boolean flag indicating whether the date immediately follows a public holiday.
+        data_type: boolean
+      - name: is_current_day
+        description: Boolean flag indicating whether this date is today.
+        data_type: boolean
+      - name: is_current_week
+        description: Boolean flag indicating whether this date falls in the current week.
+        data_type: boolean
+      - name: is_current_month
+        description: Boolean flag indicating whether this date falls in the current month.
+        data_type: boolean
+      - name: is_current_quarter
+        description: Boolean flag indicating whether this date falls in the current quarter.
+        data_type: boolean
+      - name: is_current_year
+        description: Boolean flag indicating whether this date falls in the current year.
+        data_type: boolean

@@ -1,0 +1,51 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_store_returns
+    description: staging layer for store returns data from the TPC-DS dataset
+    columns:
+      - name: store_return_key
+        description: surrogate primary key generated from item_key and ticket_number
+        data_tests:
+          - unique
+          - not_null
+      - name: returned_date_key
+        description: foreign key to the date dimension representing the date the return occurred
+      - name: return_time_key
+        description: foreign key to the time dimension representing the time the return occurred
+      - name: item_key
+        description: foreign key to the item dimension
+      - name: customer_key
+        description: foreign key to the customer dimension
+      - name: customer_demographics_key
+        description: foreign key to the customer demographics dimension
+      - name: household_demographics_key
+        description: foreign key to the household demographics dimension
+      - name: address_key
+        description: foreign key to the customer address dimension
+      - name: store_key
+        description: foreign key to the store dimension
+      - name: reason_key
+        description: foreign key to the reason dimension describing why the item was returned
+      - name: ticket_number
+        description: the original transaction ticket number, part of the composite natural key
+      - name: return_quantity
+        description: number of units returned
+      - name: return_amount
+        description: total return amount before tax
+      - name: return_tax
+        description: tax amount on the return
+      - name: return_amount_including_tax
+        description: total return amount including tax
+      - name: fee
+        description: fee charged on the return transaction
+      - name: return_ship_cost
+        description: shipping cost associated with the return
+      - name: refunded_cash
+        description: cash amount refunded to the customer
+      - name: reversed_charge
+        description: charge amount reversed on the customer's account
+      - name: store_credit
+        description: store credit issued to the customer instead of cash refund
+      - name: net_loss
+        description: net loss to the store from this return transaction

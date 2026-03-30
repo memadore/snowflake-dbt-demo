@@ -1,0 +1,37 @@
+---
+version: 2
+models:
+  - name: stg_tpcds_warehouse
+    description: staging layer for warehouse dimension data from the TPC-DS dataset
+    columns:
+      - name: warehouse_key
+        description: primary key of the model
+        data_tests:
+          - unique
+          - not_null
+      - name: warehouse_id
+        description: business identifier for the warehouse
+      - name: warehouse_name
+        description: name of the warehouse
+      - name: warehouse_square_footage
+        description: physical size of the warehouse in square feet
+      - name: street_number
+        description: street number of the warehouse address
+      - name: street_name
+        description: street name of the warehouse address
+      - name: street_type
+        description: street type (e.g., Ave, Blvd) of the warehouse address
+      - name: suite_number
+        description: suite or unit number of the warehouse address
+      - name: city
+        description: city where the warehouse is located
+      - name: county
+        description: county where the warehouse is located
+      - name: state
+        description: state where the warehouse is located
+      - name: zip_code
+        description: zip code of the warehouse address
+      - name: country
+        description: country where the warehouse is located
+      - name: gmt_offset
+        description: GMT timezone offset for the warehouse location
